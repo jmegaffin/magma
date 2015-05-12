@@ -43,7 +43,13 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	LOAD(g_mantle, grQueueSubmit);
 	LOAD(g_mantle, grResetCommandBuffer);
 
+	LOAD(g_mantle, grCmdDbgMarkerBegin);
+	LOAD(g_mantle, grCmdDbgMarkerEnd);
 	LOAD(g_mantle, grDbgRegisterMsgCallback);
+	LOAD(g_mantle, grDbgSetDeviceOption);
+	LOAD(g_mantle, grDbgSetGlobalOption);
+	LOAD(g_mantle, grDbgSetMessageFilter);
+	LOAD(g_mantle, grDbgSetObjectTag);
 	LOAD(g_mantle, grDbgSetValidationLevel);
 	LOAD(g_mantle, grDbgUnregisterMsgCallback);
 
