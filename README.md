@@ -1,7 +1,7 @@
 About
 =====
 
-*magma* is a simple library that enables anybody to use AMD's Mantle API.  It reconstructs the Mantle headers using information from the Mantle documentation and reference, and it can load the function pointers from the appropriate Mantle DLL for you.
+*magma* is a simple library that enables anybody to use AMD's Mantle API.  It reconstructs the Mantle headers using information from the [Mantle documentation and reference](http://www.amd.com/Documents/Mantle-Programming-Guide-and-API-Reference.pdf), and it can load the function pointers from the appropriate Mantle DLL for you.
 
 Status
 ======
