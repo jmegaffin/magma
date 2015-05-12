@@ -1,10 +1,9 @@
 #include <magma.h>
 
-#define extern
+#define MAGMA_EXTERN
 #include <mantle.h>
 #include <mantleDbg.h>
 #include <mantleWsiWinExt.h>
-#undef extern
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

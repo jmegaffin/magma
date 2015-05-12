@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#ifndef MAGMA_EXTERN
+#define MAGMA_EXTERN extern
+#endif
+
 #define GR_STDCALL
 
 #ifdef __cplusplus
@@ -214,18 +218,18 @@ struct _GR_PHYSICAL_GPU_PROPERTIES {
 
 
 /* functions */
-extern GR_RESULT (GR_STDCALL *grBeginCommandBuffer)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBeginCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer,
     GR_FLAGS      flags
 );
 
-extern GR_RESULT (GR_STDCALL *grBindObjectMemory)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBindObjectMemory)(
     GR_OBJECT     object,
     GR_GPU_MEMORY mem,
     GR_GPU_SIZE   offset
 );
 
-extern GR_RESULT (GR_STDCALL *grCmdClearColorImage)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImage)(
     GR_CMD_BUFFER cmdBuffer,
     GR_IMAGE image,
     const GR_FLOAT color[4],
@@ -233,7 +237,7 @@ extern GR_RESULT (GR_STDCALL *grCmdClearColorImage)(
     const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
 );
 
-extern GR_RESULT (GR_STDCALL *grCmdClearColorImageRaw)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImageRaw)(
     GR_CMD_BUFFER cmdBuffer,
     GR_IMAGE image,
     const GR_UINT32 color[4],
@@ -241,76 +245,76 @@ extern GR_RESULT (GR_STDCALL *grCmdClearColorImageRaw)(
     const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
 );
 
-extern GR_RESULT (GR_STDCALL *grCmdPrepareImages)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdPrepareImages)(
     GR_CMD_BUFFER                    cmdBuffer,
     GR_UINT                          transitionCount,
     const GR_IMAGE_STATE_TRANSITION *pStateTransitions
 );
 
-extern GR_RESULT (GR_STDCALL *grCmdPrepareMemoryRegions)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdPrepareMemoryRegions)(
     GR_CMD_BUFFER                     cmdBuffer,
     GR_UINT                           transitionCount,
     const GR_MEMORY_STATE_TRANSITION *pStateTransitions
 );
 
-extern GR_RESULT (GR_STDCALL *grCreateCommandBuffer)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCreateCommandBuffer)(
     GR_DEVICE                        device,
     const GR_CMD_BUFFER_CREATE_INFO *pCreateInfo,
     GR_CMD_BUFFER                   *pCmdBuffer
 );
 
-extern GR_RESULT (GR_STDCALL *grCreateDevice)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCreateDevice)(
     GR_PHYSICAL_GPU              gpu,
     const GR_DEVICE_CREATE_INFO *pCreateInfo,
     GR_DEVICE                   *pDevice
 );
 
-extern GR_RESULT (GR_STDCALL *grDestroyDevice)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyDevice)(
     GR_DEVICE device
 );
 
-extern GR_RESULT (GR_STDCALL *grDestroyObject)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyObject)(
     GR_OBJECT object
 );
 
-extern GR_RESULT (GR_STDCALL *grEndCommandBuffer)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grEndCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer
 );
 
-extern GR_RESULT (GR_STDCALL *grGetDeviceQueue)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetDeviceQueue)(
     GR_DEVICE device,
     GR_ENUM   queueType,
     GR_UINT   queueId,
     GR_QUEUE *pQueue
 );
 
-extern GR_RESULT (GR_STDCALL *grGetExtensionSupport)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetExtensionSupport)(
     GR_PHYSICAL_GPU gpu,
     const GR_CHAR  *pExtName
 );
 
-extern GR_RESULT (GR_STDCALL *grGetGpuInfo)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetGpuInfo)(
     GR_PHYSICAL_GPU gpu,
     GR_ENUM         infoType,
     GR_SIZE        *pDataSize,
     GR_VOID        *pData
 );
 
-extern GR_RESULT (GR_STDCALL *grGetObjectInfo)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetObjectInfo)(
     GR_BASE_OBJECT object,
     GR_ENUM        infoType,
     GR_SIZE       *pDataSize,
     GR_VOID       *pData
 );
 
-extern GR_RESULT (GR_STDCALL *grInitAndEnumerateGpus)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grInitAndEnumerateGpus)(
     const GR_APPLICATION_INFO *pAppInfo,
     const GR_ALLOC_CALLBACKS  *pAllocCb,
     GR_UINT                   *pGpuCount,
     GR_PHYSICAL_GPU            gpus[GR_MAX_PHYSICAL_GPUS]
 );
 
-extern GR_RESULT (GR_STDCALL *grQueueSubmit)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSubmit)(
     GR_QUEUE             queue,
     GR_UINT              cmdBufferCount,
     const GR_CMD_BUFFER *pCmdBuffers,
@@ -319,7 +323,7 @@ extern GR_RESULT (GR_STDCALL *grQueueSubmit)(
     GR_FENCE             fence
 );
 
-extern GR_RESULT (GR_STDCALL *grResetCommandBuffer)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grResetCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer
 );
 

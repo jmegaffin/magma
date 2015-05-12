@@ -37,14 +37,14 @@ struct _GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO {
 
 
 /* functions */
-extern GR_RESULT (GR_STDCALL *grWsiWinCreatePresentableImage)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinCreatePresentableImage)(
 	GR_DEVICE                                       device,
 	const GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO *pCreateInfo,
 	GR_IMAGE                                       *pImage,
 	GR_GPU_MEMORY                                  *pMem
 );
 
-extern GR_RESULT (GR_STDCALL *grWsiWinQueuePresent)(
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinQueuePresent)(
 	GR_QUEUE                       queue,
 	const GR_WSI_WIN_PRESENT_INFO *pPresentInfo
 );
