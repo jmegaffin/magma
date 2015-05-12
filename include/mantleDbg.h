@@ -23,52 +23,44 @@ typedef GR_VOID (GR_STDCALL *GR_DBG_MSG_CALLBACK_FUNCTION)(
 
 
 // functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdDbgMarkerBegin)(
-	GR_CMD_BUFFER  cmdBuffer,
-	const GR_CHAR *pMarker
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetValidationLevel)(
+	GR_DEVICE device,
+	GR_ENUM   validationLevel
 );
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdDbgMarkerEnd)(
-	GR_CMD_BUFFER  cmdBuffer
-);
-
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgRegisterMsgCallback)(
 	GR_DBG_MSG_CALLBACK_FUNCTION pfnMsgCallback,
 	GR_VOID                     *pUserData
 );
-
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgUnregisterMsgCallback)(
+	GR_DBG_MSG_CALLBACK_FUNCTION pfnMsgCallback
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetMessageFilter)(
+	GR_DEVICE device,
+	GR_ENUM   msgCode,
+	GR_ENUM   filter
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetObjectTag)(
+	GR_BASE_OBJECT object,
+	GR_SIZE        tagSize,
+	GR_VOID       *pTag
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetGlobalOption)(
+	GR_ENUM        dbgOption,
+	GR_SIZE        dataSize,
+	const GR_VOID *pData 
+);
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetDeviceOption)(
 	GR_DEVICE      device,
 	GR_ENUM        dbgOption,
 	GR_SIZE        dataSize,
 	const GR_VOID *pData
 );
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetGlobalOption)(
-	GR_ENUM        dbgOption,
-	GR_SIZE        dataSize,
-	const GR_VOID *pData 
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdDbgMarkerBegin)(
+	GR_CMD_BUFFER  cmdBuffer,
+	const GR_CHAR *pMarker
 );
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetMessageFilter)(
-	GR_DEVICE device,
-	GR_ENUM   msgCode,
-	GR_ENUM   filter
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetObjectTag)(
-	GR_BASE_OBJECT object,
-	GR_SIZE        tagSize,
-	GR_VOID       *pTag
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgSetValidationLevel)(
-	GR_DEVICE device,
-	GR_ENUM   validationLevel
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgUnregisterMsgCallback)(
-	GR_DBG_MSG_CALLBACK_FUNCTION pfnMsgCallback
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdDbgMarkerEnd)(
+	GR_CMD_BUFFER  cmdBuffer
 );
 
 

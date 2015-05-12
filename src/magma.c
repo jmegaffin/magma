@@ -9,6 +9,7 @@
 #include <windows.h>
 
 #define LOAD(module, function) *(void **)&function = (void *)GetProcAddress(module, #function)
+#define FREE(function) function = NULL
 
 
 
@@ -26,45 +27,50 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 		return MAGMA_ERROR_DLL_NOT_FOUND;
 	}
 
-	LOAD(g_mantle, grBeginCommandBuffer);
-	LOAD(g_mantle, grBindObjectMemory);
-	LOAD(g_mantle, grCmdClearColorImage);
-	LOAD(g_mantle, grCmdClearColorImageRaw);
-	LOAD(g_mantle, grCmdPrepareImages);
-	LOAD(g_mantle, grCmdPrepareMemoryRegions);
-	LOAD(g_mantle, grCreateCommandBuffer);
+	LOAD(g_mantle, grInitAndEnumerateGpus);
+	LOAD(g_mantle, grGetGpuInfo);
 	LOAD(g_mantle, grCreateDevice);
 	LOAD(g_mantle, grDestroyDevice);
-	LOAD(g_mantle, grDestroyObject);
-	LOAD(g_mantle, grEndCommandBuffer);
-	LOAD(g_mantle, grGetDeviceQueue);
+
 	LOAD(g_mantle, grGetExtensionSupport);
-	LOAD(g_mantle, grGetGpuInfo);
-	LOAD(g_mantle, grGetObjectInfo);
-	LOAD(g_mantle, grInitAndEnumerateGpus);
+	
+	LOAD(g_mantle, grGetDeviceQueue);
 	LOAD(g_mantle, grQueueSubmit);
+
+	LOAD(g_mantle, grDestroyObject);
+	LOAD(g_mantle, grGetObjectInfo);
+	LOAD(g_mantle, grBindObjectMemory);
+
+	LOAD(g_mantle, grCreateCommandBuffer);
+	LOAD(g_mantle, grBeginCommandBuffer);
+	LOAD(g_mantle, grEndCommandBuffer);
 	LOAD(g_mantle, grResetCommandBuffer);
 
-	LOAD(g_mantle, grCmdDbgMarkerBegin);
-	LOAD(g_mantle, grCmdDbgMarkerEnd);
+	LOAD(g_mantle, grCmdPrepareMemoryRegions);
+	LOAD(g_mantle, grCmdPrepareImages);
+	LOAD(g_mantle, grCmdClearColorImage);
+	LOAD(g_mantle, grCmdClearColorImageRaw);
+
+	LOAD(g_mantle, grDbgSetValidationLevel);
 	LOAD(g_mantle, grDbgRegisterMsgCallback);
-	LOAD(g_mantle, grDbgSetDeviceOption);
-	LOAD(g_mantle, grDbgSetGlobalOption);
+	LOAD(g_mantle, grDbgUnregisterMsgCallback);
 	LOAD(g_mantle, grDbgSetMessageFilter);
 	LOAD(g_mantle, grDbgSetObjectTag);
-	LOAD(g_mantle, grDbgSetValidationLevel);
-	LOAD(g_mantle, grDbgUnregisterMsgCallback);
+	LOAD(g_mantle, grDbgSetGlobalOption);
+	LOAD(g_mantle, grDbgSetDeviceOption);
+	LOAD(g_mantle, grCmdDbgMarkerBegin);
+	LOAD(g_mantle, grCmdDbgMarkerEnd);
 
-	LOAD(g_mantle, grWsiWinCreatePresentableImage);
-	LOAD(g_mantle, grWsiWinGetDisplayModeList);
 	LOAD(g_mantle, grWsiWinGetDisplays);
-	LOAD(g_mantle, grWsiWinGetScanLine);
-	LOAD(g_mantle, grWsiWinQueuePresent);
+	LOAD(g_mantle, grWsiWinGetDisplayModeList);
+	LOAD(g_mantle, grWsiWinTakeFullscreenOwnership);
 	LOAD(g_mantle, grWsiWinReleaseFullscreenOwnership);
 	LOAD(g_mantle, grWsiWinSetGammaRamp);
-	LOAD(g_mantle, grWsiWinSetMaxQueuedFrames);
-	LOAD(g_mantle, grWsiWinTakeFullscreenOwnership);
 	LOAD(g_mantle, grWsiWinWaitForVerticalBlank);
+	LOAD(g_mantle, grWsiWinGetScanLine);
+	LOAD(g_mantle, grWsiWinCreatePresentableImage);
+	LOAD(g_mantle, grWsiWinQueuePresent);
+	LOAD(g_mantle, grWsiWinSetMaxQueuedFrames);
 
 	return MAGMA_SUCCESS;
 }
@@ -74,45 +80,50 @@ MAGMA_STDCALL void magmaTerminate(void) {
 		return;
 	}
 
-	grBeginCommandBuffer      = NULL;
-	grBindObjectMemory        = NULL;
-	grCmdClearColorImage      = NULL;
-	grCmdClearColorImageRaw   = NULL;
-	grCmdPrepareImages        = NULL;
-	grCmdPrepareMemoryRegions = NULL;
-	grCreateCommandBuffer     = NULL;
-	grCreateDevice            = NULL;
-	grDestroyDevice           = NULL;
-	grDestroyObject           = NULL;
-	grEndCommandBuffer        = NULL;
-	grGetDeviceQueue          = NULL;
-	grGetExtensionSupport     = NULL;
-	grGetGpuInfo              = NULL;
-	grGetObjectInfo           = NULL;
-	grInitAndEnumerateGpus    = NULL;
-	grQueueSubmit             = NULL;
-	grResetCommandBuffer      = NULL;
+	FREE(grInitAndEnumerateGpus);
+	FREE(grGetGpuInfo);
+	FREE(grCreateDevice);
+	FREE(grDestroyDevice);
 
-	grCmdDbgMarkerBegin        = NULL;
-	grCmdDbgMarkerEnd          = NULL;
-	grDbgRegisterMsgCallback   = NULL;
-	grDbgSetDeviceOption       = NULL;
-	grDbgSetGlobalOption       = NULL;
-	grDbgSetMessageFilter      = NULL;
-	grDbgSetObjectTag          = NULL;
-	grDbgSetValidationLevel    = NULL;
-	grDbgUnregisterMsgCallback = NULL;
+	FREE(grGetExtensionSupport);
+	
+	FREE(grGetDeviceQueue);
+	FREE(grQueueSubmit);
 
-	grWsiWinCreatePresentableImage     = NULL;
-	grWsiWinGetDisplayModeList         = NULL;
-	grWsiWinGetDisplays                = NULL;
-	grWsiWinGetScanLine                = NULL;
-	grWsiWinQueuePresent               = NULL;
-	grWsiWinReleaseFullscreenOwnership = NULL;
-	grWsiWinSetGammaRamp               = NULL;
-	grWsiWinSetMaxQueuedFrames         = NULL;
-	grWsiWinTakeFullscreenOwnership    = NULL;
-	grWsiWinWaitForVerticalBlank       = NULL;
+	FREE(grDestroyObject);
+	FREE(grGetObjectInfo);
+	FREE(grBindObjectMemory);
+
+	FREE(grCreateCommandBuffer);
+	FREE(grBeginCommandBuffer);
+	FREE(grEndCommandBuffer);
+	FREE(grResetCommandBuffer);
+
+	FREE(grCmdPrepareMemoryRegions);
+	FREE(grCmdPrepareImages);
+	FREE(grCmdClearColorImage);
+	FREE(grCmdClearColorImageRaw);
+
+	FREE(grDbgSetValidationLevel);
+	FREE(grDbgRegisterMsgCallback);
+	FREE(grDbgUnregisterMsgCallback);
+	FREE(grDbgSetMessageFilter);
+	FREE(grDbgSetObjectTag);
+	FREE(grDbgSetGlobalOption);
+	FREE(grDbgSetDeviceOption);
+	FREE(grCmdDbgMarkerBegin);
+	FREE(grCmdDbgMarkerEnd);
+
+	FREE(grWsiWinGetDisplays);
+	FREE(grWsiWinGetDisplayModeList);
+	FREE(grWsiWinTakeFullscreenOwnership);
+	FREE(grWsiWinReleaseFullscreenOwnership);
+	FREE(grWsiWinSetGammaRamp);
+	FREE(grWsiWinWaitForVerticalBlank);
+	FREE(grWsiWinGetScanLine);
+	FREE(grWsiWinCreatePresentableImage);
+	FREE(grWsiWinQueuePresent);
+	FREE(grWsiWinSetMaxQueuedFrames);
 
 	if(g_mantle) {
 		FreeLibrary(g_mantle);

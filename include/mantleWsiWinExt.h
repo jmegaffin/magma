@@ -35,56 +35,47 @@ typedef struct _GR_WSI_WIN_QUEUE_PROPERTIES              GR_WSI_WIN_QUEUE_PROPER
 
 
 // functions
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetDisplays)(
+	GR_DEVICE           device,
+	GR_UINT            *pDisplayCount,
+	GR_WSI_WIN_DISPLAY *pDisplayList
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetDisplayModeList)(
+	GR_WSI_WIN_DISPLAY       display,
+	GR_UINT                 *pDisplayModeCount,
+	GR_WSI_WIN_DISPLAY_MODE *pDisplayModeList
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinTakeFullscreenOwnership)(
+	GR_WSI_WIN_DISPLAY display,
+	GR_IMAGE image
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinReleaseFullscreenOwnership)(
+	GR_WSI_WIN_DISPLAY display
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinSetGammaRamp)(
+	GR_WSI_WIN_DISPLAY           display,
+	const GR_WSI_WIN_GAMMA_RAMP *pGammaRamp
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinWaitForVerticalBlank)(
+	GR_WSI_WIN_DISPLAY display
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetScanLine)(
+	GR_WSI_WIN_DISPLAY display,
+	GR_INT            *pScanLine
+);
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinCreatePresentableImage)(
 	GR_DEVICE                                       device,
 	const GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO *pCreateInfo,
 	GR_IMAGE                                       *pImage,
 	GR_GPU_MEMORY                                  *pMem
 );
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetDisplayModeList)(
-	GR_WSI_WIN_DISPLAY       display,
-	GR_UINT                 *pDisplayModeCount,
-	GR_WSI_WIN_DISPLAY_MODE *pDisplayModeList
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetDisplays)(
-	GR_DEVICE           device,
-	GR_UINT            *pDisplayCount,
-	GR_WSI_WIN_DISPLAY *pDisplayList
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetScanLine)(
-	GR_WSI_WIN_DISPLAY display,
-	GR_INT            *pScanLine
-);
-
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinQueuePresent)(
 	GR_QUEUE                       queue,
 	const GR_WSI_WIN_PRESENT_INFO *pPresentInfo
 );
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinReleaseFullscreenOwnership)(
-	GR_WSI_WIN_DISPLAY display
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinSetGammaRamp)(
-	GR_WSI_WIN_DISPLAY           display,
-	const GR_WSI_WIN_GAMMA_RAMP *pGammaRamp
-);
-
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinSetMaxQueuedFrames)(
 	GR_DEVICE device,
 	GR_UINT   maxFrames
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinTakeFullscreenOwnership)(
-	GR_WSI_WIN_DISPLAY display,
-	GR_IMAGE image
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinWaitForVerticalBlank)(
-	GR_WSI_WIN_DISPLAY display
 );
 
 

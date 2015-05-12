@@ -89,67 +89,30 @@ typedef struct _GR_RECT                           GR_RECT;
 
 
 // functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBeginCommandBuffer)(
-    GR_CMD_BUFFER cmdBuffer,
-    GR_FLAGS      flags
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grInitAndEnumerateGpus)(
+    const GR_APPLICATION_INFO *pAppInfo,
+    const GR_ALLOC_CALLBACKS  *pAllocCb,
+    GR_UINT                   *pGpuCount,
+    GR_PHYSICAL_GPU            gpus[GR_MAX_PHYSICAL_GPUS]
 );
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBindObjectMemory)(
-    GR_OBJECT     object,
-    GR_GPU_MEMORY mem,
-    GR_GPU_SIZE   offset
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetGpuInfo)(
+    GR_PHYSICAL_GPU gpu,
+    GR_ENUM         infoType,
+    GR_SIZE        *pDataSize,
+    GR_VOID        *pData
 );
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImage)(
-    GR_CMD_BUFFER cmdBuffer,
-    GR_IMAGE image,
-    const GR_FLOAT color[4],
-    GR_UINT rangeCount,
-    const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImageRaw)(
-    GR_CMD_BUFFER cmdBuffer,
-    GR_IMAGE image,
-    const GR_UINT32 color[4],
-    GR_UINT rangeCount,
-    const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdPrepareImages)(
-    GR_CMD_BUFFER                    cmdBuffer,
-    GR_UINT                          transitionCount,
-    const GR_IMAGE_STATE_TRANSITION *pStateTransitions
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdPrepareMemoryRegions)(
-    GR_CMD_BUFFER                     cmdBuffer,
-    GR_UINT                           transitionCount,
-    const GR_MEMORY_STATE_TRANSITION *pStateTransitions
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCreateCommandBuffer)(
-    GR_DEVICE                        device,
-    const GR_CMD_BUFFER_CREATE_INFO *pCreateInfo,
-    GR_CMD_BUFFER                   *pCmdBuffer
-);
-
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCreateDevice)(
     GR_PHYSICAL_GPU              gpu,
     const GR_DEVICE_CREATE_INFO *pCreateInfo,
     GR_DEVICE                   *pDevice
 );
-
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyDevice)(
     GR_DEVICE device
 );
 
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyObject)(
-    GR_OBJECT object
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grEndCommandBuffer)(
-    GR_CMD_BUFFER cmdBuffer
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetExtensionSupport)(
+    GR_PHYSICAL_GPU gpu,
+    const GR_CHAR  *pExtName
 );
 
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetDeviceQueue)(
@@ -158,33 +121,6 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetDeviceQueue)(
     GR_UINT   queueId,
     GR_QUEUE *pQueue
 );
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetExtensionSupport)(
-    GR_PHYSICAL_GPU gpu,
-    const GR_CHAR  *pExtName
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetGpuInfo)(
-    GR_PHYSICAL_GPU gpu,
-    GR_ENUM         infoType,
-    GR_SIZE        *pDataSize,
-    GR_VOID        *pData
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetObjectInfo)(
-    GR_BASE_OBJECT object,
-    GR_ENUM        infoType,
-    GR_SIZE       *pDataSize,
-    GR_VOID       *pData
-);
-
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grInitAndEnumerateGpus)(
-    const GR_APPLICATION_INFO *pAppInfo,
-    const GR_ALLOC_CALLBACKS  *pAllocCb,
-    GR_UINT                   *pGpuCount,
-    GR_PHYSICAL_GPU            gpus[GR_MAX_PHYSICAL_GPUS]
-);
-
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSubmit)(
     GR_QUEUE             queue,
     GR_UINT              cmdBufferCount,
@@ -194,8 +130,60 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSubmit)(
     GR_FENCE             fence
 );
 
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyObject)(
+    GR_OBJECT object
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetObjectInfo)(
+    GR_BASE_OBJECT object,
+    GR_ENUM        infoType,
+    GR_SIZE       *pDataSize,
+    GR_VOID       *pData
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBindObjectMemory)(
+    GR_OBJECT     object,
+    GR_GPU_MEMORY mem,
+    GR_GPU_SIZE   offset
+);
+
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCreateCommandBuffer)(
+    GR_DEVICE                        device,
+    const GR_CMD_BUFFER_CREATE_INFO *pCreateInfo,
+    GR_CMD_BUFFER                   *pCmdBuffer
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBeginCommandBuffer)(
+    GR_CMD_BUFFER cmdBuffer,
+    GR_FLAGS      flags
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grEndCommandBuffer)(
+    GR_CMD_BUFFER cmdBuffer
+);
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grResetCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer
+);
+
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImage)(
+    GR_CMD_BUFFER cmdBuffer,
+    GR_IMAGE image,
+    const GR_FLOAT color[4],
+    GR_UINT rangeCount,
+    const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImageRaw)(
+    GR_CMD_BUFFER cmdBuffer,
+    GR_IMAGE image,
+    const GR_UINT32 color[4],
+    GR_UINT rangeCount,
+    const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdPrepareImages)(
+    GR_CMD_BUFFER                    cmdBuffer,
+    GR_UINT                          transitionCount,
+    const GR_IMAGE_STATE_TRANSITION *pStateTransitions
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdPrepareMemoryRegions)(
+    GR_CMD_BUFFER                     cmdBuffer,
+    GR_UINT                           transitionCount,
+    const GR_MEMORY_STATE_TRANSITION *pStateTransitions
 );
 
 
