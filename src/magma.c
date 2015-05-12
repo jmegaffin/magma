@@ -40,6 +40,16 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	LOAD(g_mantle, grQueueSubmit);
 	LOAD(g_mantle, grQueueSetGlobalMemReferences);
 
+	LOAD(g_mantle, grGetMemoryHeapCount);
+	LOAD(g_mantle, grGetMemoryHeapInfo);
+	LOAD(g_mantle, grAllocMemory);
+	LOAD(g_mantle, grFreeMemory);
+	LOAD(g_mantle, grSetMemoryPriority);
+	LOAD(g_mantle, grMapMemory);
+	LOAD(g_mantle, grUnmapMemory);
+	LOAD(g_mantle, grRemapVirtualMemoryPages);
+	LOAD(g_mantle, grPinSystemMemory);
+
 	LOAD(g_mantle, grDestroyObject);
 	LOAD(g_mantle, grGetObjectInfo);
 	LOAD(g_mantle, grBindObjectMemory);
@@ -95,6 +105,16 @@ MAGMA_STDCALL void magmaTerminate(void) {
 	FREE(grDeviceWaitIdle);
 	FREE(grQueueSubmit);
 	FREE(grQueueSetGlobalMemReferences);
+
+	FREE(grGetMemoryHeapCount);
+	FREE(grGetMemoryHeapInfo);
+	FREE(grAllocMemory);
+	FREE(grFreeMemory);
+	FREE(grSetMemoryPriority);
+	FREE(grMapMemory);
+	FREE(grUnmapMemory);
+	FREE(grRemapVirtualMemoryPages);
+	FREE(grPinSystemMemory);
 
 	FREE(grDestroyObject);
 	FREE(grGetObjectInfo);
