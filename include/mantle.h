@@ -9,6 +9,8 @@
 
 #define GR_STDCALL
 
+#define MAGMA_FUNCTION(function) MAGMA_EXTERN GR_RESULT (GR_STDCALL *function)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -93,47 +95,47 @@ typedef struct _GR_VIRTUAL_MEMORY_REMAP_RANGE     GR_VIRTUAL_MEMORY_REMAP_RANGE;
 
 
 // initialization and device functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grInitAndEnumerateGpus)(
+MAGMA_FUNCTION(grInitAndEnumerateGpus)(
     const GR_APPLICATION_INFO *pAppInfo,
     const GR_ALLOC_CALLBACKS  *pAllocCb,
     GR_UINT                   *pGpuCount,
     GR_PHYSICAL_GPU            gpus[GR_MAX_PHYSICAL_GPUS]
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetGpuInfo)(
+MAGMA_FUNCTION(grGetGpuInfo)(
     GR_PHYSICAL_GPU gpu,
     GR_ENUM         infoType,
     GR_SIZE        *pDataSize,
     GR_VOID        *pData
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCreateDevice)(
+MAGMA_FUNCTION(grCreateDevice)(
     GR_PHYSICAL_GPU              gpu,
     const GR_DEVICE_CREATE_INFO *pCreateInfo,
     GR_DEVICE                   *pDevice
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyDevice)(
+MAGMA_FUNCTION(grDestroyDevice)(
     GR_DEVICE device
 );
 
 // extension discovery functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetExtensionSupport)(
+MAGMA_FUNCTION(grGetExtensionSupport)(
     GR_PHYSICAL_GPU gpu,
     const GR_CHAR  *pExtName
 );
 
 // queue functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetDeviceQueue)(
+MAGMA_FUNCTION(grGetDeviceQueue)(
     GR_DEVICE device,
     GR_ENUM   queueType,
     GR_UINT   queueId,
     GR_QUEUE *pQueue
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueWaitIdle)(
+MAGMA_FUNCTION(grQueueWaitIdle)(
     GR_QUEUE queue
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDeviceWaitIdle)(
+MAGMA_FUNCTION(grDeviceWaitIdle)(
     GR_DEVICE device
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSubmit)(
+MAGMA_FUNCTION(grQueueSubmit)(
     GR_QUEUE             queue,
     GR_UINT              cmdBufferCount,
     const GR_CMD_BUFFER *pCmdBuffers,
@@ -141,45 +143,45 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSubmit)(
     const GR_MEMORY_REF *pMemRefs,
     GR_FENCE             fence
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSetGlobalMemReferences)(
+MAGMA_FUNCTION(grQueueSetGlobalMemReferences)(
     GR_QUEUE             queue,
     GR_UINT              memRefCount,
     const GR_MEMORY_REF *pMemRefs
 );
 
 // memory management functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetMemoryHeapCount)(
+MAGMA_FUNCTION(grGetMemoryHeapCount)(
     GR_DEVICE device,
     GR_UINT  *pCount
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetMemoryHeapInfo)(
+MAGMA_FUNCTION(grGetMemoryHeapInfo)(
     GR_DEVICE device,
     GR_UINT   heapId,
     GR_ENUM   infoType,
     GR_SIZE  *pDataSize,
     GR_VOID  *pData
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grAllocMemory)(
+MAGMA_FUNCTION(grAllocMemory)(
     GR_DEVICE                   device,
     const GR_MEMORY_ALLOC_INFO *pAllocInfo,
     GR_GPU_MEMORY              *pMem
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grFreeMemory)(
+MAGMA_FUNCTION(grFreeMemory)(
     GR_GPU_MEMORY mem
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grSetMemoryPriority)(
+MAGMA_FUNCTION(grSetMemoryPriority)(
     GR_GPU_MEMORY mem,
     GR_ENUM       priority
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grMapMemory)(
+MAGMA_FUNCTION(grMapMemory)(
     GR_GPU_MEMORY mem,
     GR_FLAGS      flags,
     GR_VOID     **ppData
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grUnmapMemory)(
+MAGMA_FUNCTION(grUnmapMemory)(
     GR_GPU_MEMORY mem
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grRemapVirtualMemoryPages)(
+MAGMA_FUNCTION(grRemapVirtualMemoryPages)(
     GR_DEVICE                            device,
     GR_UINT                              rangeCount,
     const GR_VIRTUAL_MEMORY_REMAP_RANGE *pRanges,
@@ -188,7 +190,7 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grRemapVirtualMemoryPages)(
     GR_UINT                              postSignalSemaphoreCount,
     const GR_QUEUE_SEMAPHORE            *pPostSignalSemaphores
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grPinSystemMemory)(
+MAGMA_FUNCTION(grPinSystemMemory)(
     GR_DEVICE      device,
     const GR_VOID *pSystem,
     GR_SIZE        memSize,
@@ -196,59 +198,59 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grPinSystemMemory)(
 );
 
 // generic API object management functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyObject)(
+MAGMA_FUNCTION(grDestroyObject)(
     GR_OBJECT object
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetObjectInfo)(
+MAGMA_FUNCTION(grGetObjectInfo)(
     GR_BASE_OBJECT object,
     GR_ENUM        infoType,
     GR_SIZE       *pDataSize,
     GR_VOID       *pData
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBindObjectMemory)(
+MAGMA_FUNCTION(grBindObjectMemory)(
     GR_OBJECT     object,
     GR_GPU_MEMORY mem,
     GR_GPU_SIZE   offset
 );
 
 // command buffer management functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCreateCommandBuffer)(
+MAGMA_FUNCTION(grCreateCommandBuffer)(
     GR_DEVICE                        device,
     const GR_CMD_BUFFER_CREATE_INFO *pCreateInfo,
     GR_CMD_BUFFER                   *pCmdBuffer
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBeginCommandBuffer)(
+MAGMA_FUNCTION(grBeginCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer,
     GR_FLAGS      flags
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grEndCommandBuffer)(
+MAGMA_FUNCTION(grEndCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grResetCommandBuffer)(
+MAGMA_FUNCTION(grResetCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer
 );
 
 // command buffer building functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImage)(
+MAGMA_FUNCTION(grCmdClearColorImage)(
     GR_CMD_BUFFER cmdBuffer,
     GR_IMAGE image,
     const GR_FLOAT color[4],
     GR_UINT rangeCount,
     const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImageRaw)(
+MAGMA_FUNCTION(grCmdClearColorImageRaw)(
     GR_CMD_BUFFER cmdBuffer,
     GR_IMAGE image,
     const GR_UINT32 color[4],
     GR_UINT rangeCount,
     const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdPrepareImages)(
+MAGMA_FUNCTION(grCmdPrepareImages)(
     GR_CMD_BUFFER                    cmdBuffer,
     GR_UINT                          transitionCount,
     const GR_IMAGE_STATE_TRANSITION *pStateTransitions
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdPrepareMemoryRegions)(
+MAGMA_FUNCTION(grCmdPrepareMemoryRegions)(
     GR_CMD_BUFFER                     cmdBuffer,
     GR_UINT                           transitionCount,
     const GR_MEMORY_STATE_TRANSITION *pStateTransitions

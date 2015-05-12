@@ -35,45 +35,45 @@ typedef struct _GR_WSI_WIN_QUEUE_PROPERTIES              GR_WSI_WIN_QUEUE_PROPER
 
 
 // functions
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetDisplays)(
+MAGMA_FUNCTION(grWsiWinGetDisplays)(
 	GR_DEVICE           device,
 	GR_UINT            *pDisplayCount,
 	GR_WSI_WIN_DISPLAY *pDisplayList
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetDisplayModeList)(
+MAGMA_FUNCTION(grWsiWinGetDisplayModeList)(
 	GR_WSI_WIN_DISPLAY       display,
 	GR_UINT                 *pDisplayModeCount,
 	GR_WSI_WIN_DISPLAY_MODE *pDisplayModeList
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinTakeFullscreenOwnership)(
+MAGMA_FUNCTION(grWsiWinTakeFullscreenOwnership)(
 	GR_WSI_WIN_DISPLAY display,
 	GR_IMAGE image
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinReleaseFullscreenOwnership)(
+MAGMA_FUNCTION(grWsiWinReleaseFullscreenOwnership)(
 	GR_WSI_WIN_DISPLAY display
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinSetGammaRamp)(
+MAGMA_FUNCTION(grWsiWinSetGammaRamp)(
 	GR_WSI_WIN_DISPLAY           display,
 	const GR_WSI_WIN_GAMMA_RAMP *pGammaRamp
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinWaitForVerticalBlank)(
+MAGMA_FUNCTION(grWsiWinWaitForVerticalBlank)(
 	GR_WSI_WIN_DISPLAY display
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinGetScanLine)(
+MAGMA_FUNCTION(grWsiWinGetScanLine)(
 	GR_WSI_WIN_DISPLAY display,
 	GR_INT            *pScanLine
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinCreatePresentableImage)(
+MAGMA_FUNCTION(grWsiWinCreatePresentableImage)(
 	GR_DEVICE                                       device,
 	const GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO *pCreateInfo,
 	GR_IMAGE                                       *pImage,
 	GR_GPU_MEMORY                                  *pMem
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinQueuePresent)(
+MAGMA_FUNCTION(grWsiWinQueuePresent)(
 	GR_QUEUE                       queue,
 	const GR_WSI_WIN_PRESENT_INFO *pPresentInfo
 );
-MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinSetMaxQueuedFrames)(
+MAGMA_FUNCTION(grWsiWinSetMaxQueuedFrames)(
 	GR_DEVICE device,
 	GR_UINT   maxFrames
 );
