@@ -79,7 +79,13 @@ MAGMA_STDCALL void magmaTerminate(void) {
 	grQueueSubmit             = NULL;
 	grResetCommandBuffer      = NULL;
 
+	grCmdDbgMarkerBegin        = NULL;
+	grCmdDbgMarkerEnd          = NULL;
 	grDbgRegisterMsgCallback   = NULL;
+	grDbgSetDeviceOption       = NULL;
+	grDbgSetGlobalOption       = NULL;
+	grDbgSetMessageFilter      = NULL;
+	grDbgSetObjectTag          = NULL;
 	grDbgSetValidationLevel    = NULL;
 	grDbgUnregisterMsgCallback = NULL;
 
