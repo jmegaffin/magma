@@ -53,6 +53,7 @@ typedef uint64_t GR_OBJECT;
 typedef uint64_t GR_PHYSICAL_GPU;
 typedef uint64_t GR_QUEUE;
 typedef uint64_t GR_QUEUE_SEMAPHORE;
+typedef uint64_t GR_SAMPLER;
 
 
 
@@ -78,7 +79,9 @@ typedef struct _GR_DEVICE_QUEUE_CREATE_INFO       GR_DEVICE_QUEUE_CREATE_INFO;
 typedef struct _GR_EXTENT2D                       GR_EXTENT2D;
 typedef struct _GR_EXTENT3D                       GR_EXTENT3D;
 typedef struct _GR_FORMAT                         GR_FORMAT;
+typedef struct _GR_IMAGE_CREATE_INFO              GR_IMAGE_CREATE_INFO;
 typedef struct _GR_IMAGE_STATE_TRANSITION         GR_IMAGE_STATE_TRANSITION;
+typedef struct _GR_IMAGE_SUBRESOURCE              GR_IMAGE_SUBRESOURCE;
 typedef struct _GR_IMAGE_SUBRESOURCE_RANGE        GR_IMAGE_SUBRESOURCE_RANGE;
 typedef struct _GR_MEMORY_ALLOC_INFO              GR_MEMORY_ALLOC_INFO;
 typedef struct _GR_MEMORY_REF                     GR_MEMORY_REF;
@@ -90,6 +93,7 @@ typedef struct _GR_PHYSICAL_GPU_MEMORY_PROPERTIES GR_PHYSICAL_GPU_MEMORY_PROPERT
 typedef struct _GR_PHYSICAL_GPU_PERFORMANCE       GR_PHYSICAL_GPU_PERFORMANCE;
 typedef struct _GR_PHYSICAL_GPU_PROPERTIES        GR_PHYSICAL_GPU_PROPERTIES;
 typedef struct _GR_RECT                           GR_RECT;
+typedef struct _GR_SAMPLER_CREATE_INFO            GR_SAMPLER_CREATE_INFO;
 typedef struct _GR_VIRTUAL_MEMORY_REMAP_RANGE     GR_VIRTUAL_MEMORY_REMAP_RANGE;
 
 
@@ -213,6 +217,32 @@ MAGMA_FUNCTION(grBindObjectMemory)(
     GR_GPU_SIZE   offset
 );
 
+// image and sampler functions
+MAGMA_FUNCTION(grGetFormatInfo)(
+    GR_DEVICE device,
+    GR_FORMAT format,
+    GR_ENUM   infoType,
+    GR_SIZE  *pDataSize,
+    GR_VOID  *pData
+);
+MAGMA_FUNCTION(grCreateImage)(
+    GR_DEVICE                   device,
+    const GR_IMAGE_CREATE_INFO *pCreateInfo,
+    GR_IMAGE                   *pImage
+);
+MAGMA_FUNCTION(grGetImageSubresourceInfo)(
+    GR_IMAGE                    image,
+    const GR_IMAGE_SUBRESOURCE *pSubresource,
+    GR_ENUM                     infoType,
+    GR_SIZE                    *pDataSize,
+    GR_VOID                    *pData
+);
+MAGMA_FUNCTION(grCreateSampler)(
+    GR_DEVICE                     device,
+    const GR_SAMPLER_CREATE_INFO *pCreateInfo,
+    GR_SAMPLER                   *pSampler
+);
+
 // command buffer management functions
 MAGMA_FUNCTION(grCreateCommandBuffer)(
     GR_DEVICE                        device,
@@ -293,6 +323,17 @@ typedef enum _GR_CHANNEL_FORMAT {
     GR_CH_FMT_BC7
 } GR_CHANNEL_FORMAT;
 
+typedef enum _GR_COMPARE_FUNC {
+    GR_COMPARE_NEVER = 0x2500,
+    GR_COMPARE_LESS,
+    GR_COMPARE_EQUAL,
+    GR_COMPARE_LESS_EQUAL,
+    GR_COMPARE_GREATER,
+    GR_COMPARE_NOT_EQUAL,
+    GR_COMPARE_GREATER_EQUAL,
+    GR_COMPARE_ALWAYS
+} GR_COMPARE_FUNC;
+
 typedef enum _GR_IMAGE_ASPECT {
     GR_IMAGE_ASPECT_COLOR = 0x1700,
     GR_IMAGE_ASPECT_DEPTH,
@@ -319,6 +360,17 @@ typedef enum _GR_IMAGE_STATE {
     GR_IMAGE_STATE_DATA_TRANSFER_SOURCE,
     GR_IMAGE_STATE_DATA_TRANSFER_DESTINATION
 } GR_IMAGE_STATE;
+
+typedef enum _GR_IMAGE_TILING {
+    GR_LINEAR_TILING = 0x1500,
+    GR_OPTIMAL_TILING
+} GR_IMAGE_TILING;
+
+typedef enum _GR_IMAGE_TYPE {
+    GR_IMAGE_1D = 0x1400,
+    GR_IMAGE_2D,
+    GR_IMAGE_3D
+} GR_IMAGE_TYPE;
 
 typedef enum _GR_INFO_TYPE {
     GR_INFO_TYPE_PHYSICAL_GPU_PROPERTIES = 0x6100,
@@ -431,6 +483,26 @@ typedef enum _GR_SYSTEM_ALLOC_TYPE {
     GR_SYSTEM_ALLOC_DEBUG
 } GR_SYSTEM_ALLOC_TYPE;
 
+typedef enum _GR_TEX_ADDRESS {
+    GR_TEX_ADDRESS_WRAP = 0x2400,
+    GR_TEX_ADDRESS_MIRROR,
+    GR_TEX_ADDRESS_CLAMP,
+    GR_TEX_ADDRESS_MIRROR_ONCE,
+    GR_TEX_ADDRESS_CLAMP_BORDER
+} GR_TEX_ADDRESS;
+
+typedef enum _GR_TEX_FILTER {
+    GR_TEX_FILTER_MAG_POINT_MIN_POINT_MIP_POINT    = 0x2340,
+    GR_TEX_FILTER_MAG_LIENAR_MIN_POINT_MIP_POINT   = 0x2341,
+    GR_TEX_FILTER_MAG_POINT_MIN_LINEAR_MIP_POINT   = 0x2344,
+    GR_TEX_FILTER_MAG_LIENAR_MIN_LINEAR_MIP_POINT  = 0x2345,
+    GR_TEX_FILTER_MAG_POINT_MIN_POINT_MIP_LINEAR   = 0x2380,
+    GR_TEX_FILTER_MAG_LIENAR_MIN_POINT_MIP_LINEAR  = 0x2381,
+    GR_TEX_FILTER_MAG_POINT_MIN_LINEAR_MIP_LINEAR  = 0x2384,
+    GR_TEX_FILTER_MAG_LIENAR_MIN_LINEAR_MIP_LINEAR = 0x2385,
+    GR_TEX_FILTER_ANISOTROPIC                      = 0x238f
+} GR_TEX_FILTER;
+
 typedef enum _GR_VALIDATION_LEVEL {
     GR_VALIDATION_LEVEL_0 = 0x8000,
     GR_VALIDATION_LEVEL_1,
@@ -452,6 +524,13 @@ typedef enum _GR_CMD_BUFFER_BUILD_FLAGS {
 typedef enum _GR_DEVICE_CREATE_FLAGS {
     GR_DEVICE_CREATE_VALIDATION = 1 << 0
 } GR_DEVICE_CREATE_FLAGS;
+
+typedef enum _GR_IMAGE_CREATE_FLAGS {
+    GR_IMAGE_CREATE_INVARIANT_DATA     = 1 << 0,
+    GR_IMAGE_CREATE_CLONEABLE          = 1 << 1,
+    GR_IMAGE_CREATE_SHAREABLE          = 1 << 2,
+    GR_IMAGE_CREATE_VIEW_FORMAT_CHANGE = 1 << 3
+} GR_IMAGE_CREATE_FLAGS;
 
 typedef enum _GR_IMAGE_USAGE_FLAGS {
     GR_IMAGE_USAGE_SHADER_ACCESS_READ  = 1 << 0,
@@ -520,6 +599,24 @@ struct _GR_EXTENT3D {
 struct _GR_FORMAT {
     GR_UINT32 channelFormat : 16;
     GR_UINT32 numericFormat : 16;
+};
+
+struct _GR_IMAGE_CREATE_INFO {
+    GR_ENUM     imageType;
+    GR_FORMAT   format;
+    GR_EXTENT3D extent;
+    GR_UINT     mipLevels;
+    GR_UINT     arraySize;
+    GR_UINT     samples;
+    GR_ENUM     tiling;
+    GR_FLAGS    usage;
+    GR_FLAGS    flags;
+};
+
+struct _GR_IMAGE_SUBRESOURCE {
+    GR_ENUM aspect;
+    GR_UINT mipLevel;
+    GR_UINT arraySlice;
 };
 
 struct _GR_IMAGE_SUBRESOURCE_RANGE {
@@ -616,6 +713,19 @@ struct _GR_PHYSICAL_GPU_PROPERTIES {
 struct _GR_RECT {
     GR_OFFSET2D offset;
     GR_EXTENT2D extent;
+};
+
+struct _GR_SAMPLER_CREATE_INFO {
+    GR_ENUM  filter;
+    GR_ENUM  addressU;
+    GR_ENUM  addressV;
+    GR_ENUM  addressW;
+    GR_FLOAT mipLodBias;
+    GR_UINT  maxAnisotropy;
+    GR_ENUM  compareFunc;
+    GR_FLOAT minLod;
+    GR_FLOAT maxLod;
+    GR_ENUM  borderColor;
 };
 
 struct _GR_VIRTUAL_MEMORY_REMAP_RANGE {

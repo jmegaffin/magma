@@ -54,6 +54,11 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	LOAD(g_mantle, grGetObjectInfo);
 	LOAD(g_mantle, grBindObjectMemory);
 
+	LOAD(g_mantle, grGetFormatInfo);
+	LOAD(g_mantle, grCreateImage);
+	LOAD(g_mantle, grGetImageSubresourceInfo);
+	LOAD(g_mantle, grCreateSampler);
+
 	LOAD(g_mantle, grCreateCommandBuffer);
 	LOAD(g_mantle, grBeginCommandBuffer);
 	LOAD(g_mantle, grEndCommandBuffer);
@@ -119,6 +124,11 @@ MAGMA_STDCALL void magmaTerminate(void) {
 	FREE(grDestroyObject);
 	FREE(grGetObjectInfo);
 	FREE(grBindObjectMemory);
+
+	FREE(grGetFormatInfo);
+	FREE(grCreateImage);
+	FREE(grGetImageSubresourceInfo);
+	FREE(grCreateSampler);
 
 	FREE(grCreateCommandBuffer);
 	FREE(grBeginCommandBuffer);
