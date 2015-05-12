@@ -17,7 +17,10 @@ Building
 
 *magma* requires no dependencies.  Simply compile `src/magma.c` with your toolchain of choice and link it with your application, or add it to your project's source tree.
 
-Please note that since Mantle is a Windows-only API, *magma* will only build on Windows.
+Notes:
+
+- *magma* utilizes a couple of C99 features: `stdint.h` and `//`-style comments.
+- Since Mantle is a Windows-only API, *magma* will only build on Windows.
 
 Usage
 =====

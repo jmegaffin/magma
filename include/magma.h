@@ -5,18 +5,18 @@
 
 
 
-/* type aliases */
+// type aliases
 typedef char MAGMA_RESULT;
 
 
 
-/* functions */
+// functions
 MAGMA_STDCALL MAGMA_RESULT magmaInit(void);
 MAGMA_STDCALL void magmaTerminate(void);
 
 
 
-/* enumerations */
+// enumerations
 typedef enum _MAGMA_RESULT_CODE {
 	MAGMA_SUCCESS,
 	MAGMA_ERROR_DLL_NOT_FOUND
