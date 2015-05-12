@@ -1,0 +1,50 @@
+About
+=====
+
+*magma* is a simple library that enables anybody to use AMD's Mantle API.  It reconstructs the Mantle headers using information from the Mantle documentation and reference, and it can load the function pointers from the appropriate Mantle DLL for you.
+
+Status
+======
+
+|Header             |Status    |
+|:-----------------:|:--------:|
+|`mantle.h`         |incomplete|
+|`mantleDbg.h`      |incomplete|
+|`mantleWsiWinExt.h`|incomplete|
+
+Building
+========
+
+*magma* requires no dependencies.  Simply compile `src/magma.c` with your toolchain of choice and link it with your application, or add it to your project's source tree.
+
+Please note that since Mantle is a Windows-only API, *magma* will only build on Windows.
+
+Usage
+=====
+
+Simply include `magma.h` and use these functions in your application:
+
+- `MAGMA_RESULT magmaInit(void)`: Loads the function pointers.
+- `void magmaTerminate(void)`: Frees the function pointers.
+
+It is safe to call `magmaInit` again after calling `magmaTerminate`.
+
+`magmaInit` will return one of these codes:
+
+- `MAGMA_SUCCESS`: Indicates that the function pointers were loaded successfully.
+- `MAGMA_ERROR_ALREADY_INITIALIZED`: Indicates a redundant call to `magmaInit`.
+- `MAGMA_ERROR_INITIALIZATION_FAILED`: Indicates that the appropriate Mantle DLL was not found.  `magmaTerminate` does not need to be called.
+
+In order to access the actual Mantle API, the appropriate headers, such as `mantle.h` and `mantleWsiWinExt.h`, must be included.
+
+Limitations
+===========
+
+*magma* is only intended as a resource for learning, especially since the upcoming Vulkan API will be very similar to Mantle.  Incorporate it into a released application at your own risk.
+
+At the moment *magma* only supports the 64-bit Mantle DLL.  Applications will need to be compiled in 64-bit mode.
+
+Acknowledgments
+===============
+
+- Alexander "Overv" Overvoorde: For the "Mantle Hello Triangle" article and sample code, off of which I based part of `mantle.h`.
