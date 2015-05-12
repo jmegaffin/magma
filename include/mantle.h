@@ -15,8 +15,9 @@ extern "C" {
 
 
 
-// constants (guessed)
+// constants (some guessed)
 #define GR_API_VERSION           1
+#define GR_MAX_MEMORY_HEAPS      8
 #define GR_MAX_PHYSICAL_GPU_NAME 256
 #define GR_MAX_PHYSICAL_GPUS     4
 #define GR_NULL_HANDLE           0
@@ -49,6 +50,7 @@ typedef uint64_t GR_GPU_MEMORY;
 typedef uint64_t GR_OBJECT;
 typedef uint64_t GR_PHYSICAL_GPU;
 typedef uint64_t GR_QUEUE;
+typedef uint64_t GR_QUEUE_SEMAPHORE;
 
 
 
@@ -76,6 +78,7 @@ typedef struct _GR_EXTENT3D                       GR_EXTENT3D;
 typedef struct _GR_FORMAT                         GR_FORMAT;
 typedef struct _GR_IMAGE_STATE_TRANSITION         GR_IMAGE_STATE_TRANSITION;
 typedef struct _GR_IMAGE_SUBRESOURCE_RANGE        GR_IMAGE_SUBRESOURCE_RANGE;
+typedef struct _GR_MEMORY_ALLOC_INFO              GR_MEMORY_ALLOC_INFO;
 typedef struct _GR_MEMORY_REF                     GR_MEMORY_REF;
 typedef struct _GR_MEMORY_STATE_TRANSITION        GR_MEMORY_STATE_TRANSITION;
 typedef struct _GR_OFFSET2D                       GR_OFFSET2D;
@@ -85,10 +88,11 @@ typedef struct _GR_PHYSICAL_GPU_MEMORY_PROPERTIES GR_PHYSICAL_GPU_MEMORY_PROPERT
 typedef struct _GR_PHYSICAL_GPU_PERFORMANCE       GR_PHYSICAL_GPU_PERFORMANCE;
 typedef struct _GR_PHYSICAL_GPU_PROPERTIES        GR_PHYSICAL_GPU_PROPERTIES;
 typedef struct _GR_RECT                           GR_RECT;
+typedef struct _GR_VIRTUAL_MEMORY_REMAP_RANGE     GR_VIRTUAL_MEMORY_REMAP_RANGE;
 
 
 
-// functions
+// initialization and device functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grInitAndEnumerateGpus)(
     const GR_APPLICATION_INFO *pAppInfo,
     const GR_ALLOC_CALLBACKS  *pAllocCb,
@@ -110,16 +114,24 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyDevice)(
     GR_DEVICE device
 );
 
+// extension discovery functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetExtensionSupport)(
     GR_PHYSICAL_GPU gpu,
     const GR_CHAR  *pExtName
 );
 
+// queue functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetDeviceQueue)(
     GR_DEVICE device,
     GR_ENUM   queueType,
     GR_UINT   queueId,
     GR_QUEUE *pQueue
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueWaitIdle)(
+    GR_QUEUE queue
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDeviceWaitIdle)(
+    GR_DEVICE device
 );
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSubmit)(
     GR_QUEUE             queue,
@@ -129,7 +141,61 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSubmit)(
     const GR_MEMORY_REF *pMemRefs,
     GR_FENCE             fence
 );
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grQueueSetGlobalMemReferences)(
+    GR_QUEUE             queue,
+    GR_UINT              memRefCount,
+    const GR_MEMORY_REF *pMemRefs
+);
 
+// memory management functions
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetMemoryHeapCount)(
+    GR_DEVICE device,
+    GR_UINT  *pCount
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grGetMemoryHeapInfo)(
+    GR_DEVICE device,
+    GR_UINT   heapId,
+    GR_ENUM   infoType,
+    GR_SIZE  *pDataSize,
+    GR_VOID  *pData
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grAllocMemory)(
+    GR_DEVICE                   device,
+    const GR_MEMORY_ALLOC_INFO *pAllocInfo,
+    GR_GPU_MEMORY              *pMem
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grFreeMemory)(
+    GR_GPU_MEMORY mem
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grSetMemoryPriority)(
+    GR_GPU_MEMORY mem,
+    GR_ENUM       priority
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grMapMemory)(
+    GR_GPU_MEMORY mem,
+    GR_FLAGS      flags,
+    GR_VOID     **ppData
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grUnmapMemory)(
+    GR_GPU_MEMORY mem
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grRemapVirtualMemoryPages)(
+    GR_DEVICE                            device,
+    GR_UINT                              rangeCount,
+    const GR_VIRTUAL_MEMORY_REMAP_RANGE *pRanges,
+    GR_UINT                              preWaitSemaphoreCount,
+    const GR_QUEUE_SEMAPHORE            *pPreWaitSemaphores,
+    GR_UINT                              postSignalSemaphoreCount,
+    const GR_QUEUE_SEMAPHORE            *pPostSignalSemaphores
+);
+MAGMA_EXTERN GR_RESULT (GR_STDCALL *grPinSystemMemory)(
+    GR_DEVICE      device,
+    const GR_VOID *pSystem,
+    GR_SIZE        memSize,
+    GR_GPU_MEMORY *pMem
+);
+
+// generic API object management functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDestroyObject)(
     GR_OBJECT object
 );
@@ -145,6 +211,7 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBindObjectMemory)(
     GR_GPU_SIZE   offset
 );
 
+// command buffer management functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCreateCommandBuffer)(
     GR_DEVICE                        device,
     const GR_CMD_BUFFER_CREATE_INFO *pCreateInfo,
@@ -161,6 +228,7 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grResetCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer
 );
 
+// command buffer building functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdClearColorImage)(
     GR_CMD_BUFFER cmdBuffer,
     GR_IMAGE image,
@@ -467,6 +535,15 @@ struct _GR_IMAGE_STATE_TRANSITION {
     GR_IMAGE_SUBRESOURCE_RANGE subresourceRange;
 };
 
+struct _GR_MEMORY_ALLOC_INFO {
+    GR_GPU_SIZE size;
+    GR_GPU_SIZE alignment;
+    GR_FLAGS    flags;
+    GR_UINT     heapCount;
+    GR_UINT     heaps[GR_MAX_MEMORY_HEAPS];
+    GR_ENUM     memPriority;
+};
+
 struct _GR_MEMORY_REF {
     GR_GPU_MEMORY mem;
     GR_FLAGS      flags;
@@ -537,6 +614,14 @@ struct _GR_PHYSICAL_GPU_PROPERTIES {
 struct _GR_RECT {
     GR_OFFSET2D offset;
     GR_EXTENT2D extent;
+};
+
+struct _GR_VIRTUAL_MEMORY_REMAP_RANGE {
+    GR_GPU_MEMORY virtualMem;
+    GR_GPU_SIZE   virtualStartPage;
+    GR_GPU_MEMORY realMem;
+    GR_GPU_SIZE   realStartPage;
+    GR_GPU_SIZE   pageCount;
 };
 
 

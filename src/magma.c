@@ -35,7 +35,10 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	LOAD(g_mantle, grGetExtensionSupport);
 	
 	LOAD(g_mantle, grGetDeviceQueue);
+	LOAD(g_mantle, grQueueWaitIdle);
+	LOAD(g_mantle, grDeviceWaitIdle);
 	LOAD(g_mantle, grQueueSubmit);
+	LOAD(g_mantle, grQueueSetGlobalMemReferences);
 
 	LOAD(g_mantle, grDestroyObject);
 	LOAD(g_mantle, grGetObjectInfo);
@@ -88,7 +91,10 @@ MAGMA_STDCALL void magmaTerminate(void) {
 	FREE(grGetExtensionSupport);
 	
 	FREE(grGetDeviceQueue);
+	FREE(grQueueWaitIdle);
+	FREE(grDeviceWaitIdle);
 	FREE(grQueueSubmit);
+	FREE(grQueueSetGlobalMemReferences);
 
 	FREE(grDestroyObject);
 	FREE(grGetObjectInfo);
