@@ -9,18 +9,18 @@ extern "C" {
 
 
 
-/* constants (guessed based on DXGI) */
+// constants (guessed based on DXGI) 
 #define GR_MAX_DEVICE_NAME_LEN           32
 #define GR_MAX_GAMMA_RAMP_CONTROL_POINTS 1025
 
 
 
-/* type aliases */
+// type aliases
 typedef uint64_t GR_WSI_WIN_DISPLAY;
 
 
 
-/* structures */
+// forward declarations
 typedef struct _GR_RGB_FLOAT                             GR_RGB_FLOAT;
 typedef struct _GR_WSI_WIN_DISPLAY_MODE                  GR_WSI_WIN_DISPLAY_MODE;
 typedef struct _GR_WSI_WIN_DISPLAY_PROPERTIES            GR_WSI_WIN_DISPLAY_PROPERTIES;
@@ -32,64 +32,9 @@ typedef struct _GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO GR_WSI_WIN_PRESENTABLE_
 typedef struct _GR_WSI_WIN_PRESENTABLE_IMAGE_PROPERTIES  GR_WSI_WIN_PRESENTABLE_IMAGE_PROPERTIES;
 typedef struct _GR_WSI_WIN_QUEUE_PROPERTIES              GR_WSI_WIN_QUEUE_PROPERTIES;
 
-struct _GR_RGB_FLOAT {
-	GR_FLOAT red;
-	GR_FLOAT green;
-	GR_FLOAT blue;
-};
-
-struct _GR_WSI_WIN_DISPLAY_MODE {
-	GR_EXTENT2D extent;
-	GR_FORMAT   format;
-	GR_UINT     refreshRate;
-	GR_BOOL     stereo;
-	GR_BOOL     crossDisplayPresent;
-};
-
-struct _GR_WSI_WIN_DISPLAY_PROPERTIES {
-	void *hMonitor;
-	GR_CHAR displayName[GR_MAX_DEVICE_NAME_LEN];
-	GR_RECT desktopCoordinates;
-	GR_ENUM rotation;
-};
-
-struct _GR_WSI_WIN_EXTENDED_DISPLAY_PROPERTIES {
-	GR_FLAGS extendedProperties;
-};
-
-struct _GR_WSI_WIN_GAMMA_RAMP {
-	GR_RGB_FLOAT scale;
-	GR_RGB_FLOAT offset;
-	GR_RGB_FLOAT gammaCurve[GR_MAX_GAMMA_RAMP_CONTROL_POINTS];
-};
-
-struct _GR_WSI_WIN_GAMMA_RAMP_CAPABILITIES {
-	GR_BOOL  supportsScaleAndOffset;
-	GR_FLOAT minConvertedValue;
-	GR_FLOAT maxConvertedValue;
-	GR_UINT  controlPointCount;
-	GR_FLOAT controlPointPositions[GR_MAX_GAMMA_RAMP_CONTROL_POINTS];
-};
-
-struct _GR_WSI_WIN_PRESENT_INFO {
-	void    *hWndDest;
-	GR_IMAGE srcImage;
-	GR_ENUM  presentMode;
-	GR_UINT  presentInterval;
-	GR_FLAGS flags;
-};
-
-struct _GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO {
-	GR_FORMAT          format;
-	GR_FLAGS           usage;
-	GR_EXTENT2D        extent;
-	GR_WSI_WIN_DISPLAY display;
-	GR_FLAGS           flags;
-};
 
 
-
-/* functions */
+// functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinCreatePresentableImage)(
 	GR_DEVICE                                       device,
 	const GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO *pCreateInfo,
@@ -144,7 +89,7 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grWsiWinWaitForVerticalBlank)(
 
 
 
-/* enumerations */
+// enumerations
 typedef enum _GR_WSI_WIN_IMAGE_STATE {
 	GR_WSI_WIN_IMAGE_STATE_PRESENT_WINDOWED = 0x00200000,
 	GR_WSI_WIN_IMAGE_STATE_PRESENT_FULLSCREEN
@@ -183,7 +128,7 @@ typedef enum _GR_WSI_WIN_ROTATION_ANGLE {
 
 
 
-/* flags */
+// flags
 typedef enum _GR_WSI_WIN_EXTENDED_DISPLAY_FLAGS {
 	GR_WSI_WIN_WINDOWED_VBLANK_WAIT  = 1 << 0,
 	GR_WSI_WIN_WINDOWED_GET_SCANLINE = 1 << 1
@@ -203,6 +148,64 @@ typedef enum _GR_WSI_WIN_PRESENT_SUPPORT_FLAGS {
 	GR_WSI_WIN_FULLSCREEN_PRESENT_SUPPORTED = 1 << 0,
 	GR_WSI_WIN_WINDOWED_PRESENT_SUPPORTED   = 1 << 1
 } GR_WSI_WIN_PRESENT_SUPPORT_FLAGS;
+
+
+
+// structures
+struct _GR_RGB_FLOAT {
+	GR_FLOAT red;
+	GR_FLOAT green;
+	GR_FLOAT blue;
+};
+
+struct _GR_WSI_WIN_DISPLAY_MODE {
+	GR_EXTENT2D extent;
+	GR_FORMAT   format;
+	GR_UINT     refreshRate;
+	GR_BOOL     stereo;
+	GR_BOOL     crossDisplayPresent;
+};
+
+struct _GR_WSI_WIN_DISPLAY_PROPERTIES {
+	void *hMonitor;
+	GR_CHAR displayName[GR_MAX_DEVICE_NAME_LEN];
+	GR_RECT desktopCoordinates;
+	GR_ENUM rotation;
+};
+
+struct _GR_WSI_WIN_EXTENDED_DISPLAY_PROPERTIES {
+	GR_FLAGS extendedProperties;
+};
+
+struct _GR_WSI_WIN_GAMMA_RAMP {
+	GR_RGB_FLOAT scale;
+	GR_RGB_FLOAT offset;
+	GR_RGB_FLOAT gammaCurve[GR_MAX_GAMMA_RAMP_CONTROL_POINTS];
+};
+
+struct _GR_WSI_WIN_GAMMA_RAMP_CAPABILITIES {
+	GR_BOOL  supportsScaleAndOffset;
+	GR_FLOAT minConvertedValue;
+	GR_FLOAT maxConvertedValue;
+	GR_UINT  controlPointCount;
+	GR_FLOAT controlPointPositions[GR_MAX_GAMMA_RAMP_CONTROL_POINTS];
+};
+
+struct _GR_WSI_WIN_PRESENT_INFO {
+	void    *hWndDest;
+	GR_IMAGE srcImage;
+	GR_ENUM  presentMode;
+	GR_UINT  presentInterval;
+	GR_FLAGS flags;
+};
+
+struct _GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO {
+	GR_FORMAT          format;
+	GR_FLAGS           usage;
+	GR_EXTENT2D        extent;
+	GR_WSI_WIN_DISPLAY display;
+	GR_FLAGS           flags;
+};
 
 
 

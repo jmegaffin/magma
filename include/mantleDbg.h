@@ -9,7 +9,7 @@ extern "C" {
 
 
 
-/* callbacks */
+// callbacks
 typedef GR_VOID (GR_STDCALL *GR_DBG_MSG_CALLBACK_FUNCTION)(
 	GR_ENUM        msgType,
 	GR_ENUM        validationLevel,
@@ -22,7 +22,7 @@ typedef GR_VOID (GR_STDCALL *GR_DBG_MSG_CALLBACK_FUNCTION)(
 
 
 
-/* functions */
+// functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grCmdDbgMarkerBegin)(
 	GR_CMD_BUFFER  cmdBuffer,
 	const GR_CHAR *pMarker
@@ -73,7 +73,7 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grDbgUnregisterMsgCallback)(
 
 
 
-/* enumerations */
+// enumerations
 typedef enum _GR_DBG_DATA_TYPE {
 	GR_DBG_DATA_OBJECT_TYPE = 0x00020a00,
 	GR_DBG_DATA_OBJECT_CREATE_INFO,

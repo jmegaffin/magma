@@ -15,7 +15,7 @@ extern "C" {
 
 
 
-/* constants (guessed) */
+// constants (guessed)
 #define GR_API_VERSION           1
 #define GR_MAX_PHYSICAL_GPU_NAME 256
 #define GR_MAX_PHYSICAL_GPUS     4
@@ -23,7 +23,7 @@ extern "C" {
 
 
 
-/* type aliases */
+// type aliases
 typedef void     GR_VOID;
 typedef int32_t  GR_BOOL;
 typedef char     GR_CHAR;
@@ -52,7 +52,7 @@ typedef uint64_t GR_QUEUE;
 
 
 
-/* callbacks */
+// callbacks
 typedef GR_VOID *(GR_STDCALL *GR_ALLOC_FUNCTION)(
     GR_SIZE size,
     GR_SIZE alignment,
@@ -65,7 +65,7 @@ typedef GR_VOID (GR_STDCALL *GR_FREE_FUNCTION)(
 
 
 
-/* structures */
+// forward declarations
 typedef struct _GR_ALLOC_CALLBACKS                GR_ALLOC_CALLBACKS;
 typedef struct _GR_APPLICATION_INFO               GR_APPLICATION_INFO;
 typedef struct _GR_CMD_BUFFER_CREATE_INFO         GR_CMD_BUFFER_CREATE_INFO;
@@ -86,144 +86,9 @@ typedef struct _GR_PHYSICAL_GPU_PERFORMANCE       GR_PHYSICAL_GPU_PERFORMANCE;
 typedef struct _GR_PHYSICAL_GPU_PROPERTIES        GR_PHYSICAL_GPU_PROPERTIES;
 typedef struct _GR_RECT                           GR_RECT;
 
-struct _GR_ALLOC_CALLBACKS {
-    GR_ALLOC_FUNCTION pfnAlloc;
-    GR_FREE_FUNCTION  pfnFree;
-};
-
-struct _GR_APPLICATION_INFO {
-    const GR_CHAR *pAppName;
-    GR_UINT32      appVersion;
-    const GR_CHAR *pEngineName;
-    GR_UINT32      engineVersion;
-    GR_UINT32      apiVersion;
-};
-
-struct _GR_CMD_BUFFER_CREATE_INFO {
-    GR_ENUM  queueType;
-    GR_FLAGS flags;
-};
-
-struct _GR_DEVICE_CREATE_INFO {
-    GR_UINT                            queueRecordCount;
-    const GR_DEVICE_QUEUE_CREATE_INFO *pRequestedQueues;
-    GR_UINT                            extensionCount;
-    const GR_CHAR *const              *ppEnabledExtensionNames;
-    GR_ENUM                            maxValidationLevel;
-    GR_FLAGS                           flags;
-};
-
-struct _GR_DEVICE_QUEUE_CREATE_INFO {
-    GR_ENUM queueType;
-    GR_UINT queueCount;
-};
-
-struct _GR_EXTENT2D {
-    GR_INT width;
-    GR_INT height;
-};
-
-struct _GR_EXTENT3D {
-    GR_INT width;
-    GR_INT height;
-    GR_INT depth;
-};
-
-struct _GR_FORMAT {
-    GR_UINT32 channelFormat : 16;
-    GR_UINT32 numericFormat : 16;
-};
-
-struct _GR_IMAGE_SUBRESOURCE_RANGE {
-    GR_ENUM aspect;
-    GR_UINT baseMipLevel;
-    GR_UINT mipLevels;
-    GR_UINT baseArraySlice;
-    GR_UINT arraySize;
-};
-
-struct _GR_IMAGE_STATE_TRANSITION {
-    GR_IMAGE                   image;
-    GR_ENUM                    oldState;
-    GR_ENUM                    newState;
-    GR_IMAGE_SUBRESOURCE_RANGE subresourceRange;
-};
-
-struct _GR_MEMORY_REF {
-    GR_GPU_MEMORY mem;
-    GR_FLAGS      flags;
-};
-
-struct _GR_MEMORY_STATE_TRANSITION {
-    GR_GPU_MEMORY mem;
-    GR_ENUM       oldState;
-    GR_ENUM       newState;
-    GR_GPU_SIZE   offset;
-    GR_GPU_SIZE   regionSize;
-};
-
-struct _GR_OFFSET2D {
-    GR_INT x;
-    GR_INT y;
-};
-
-struct _GR_OFFSET3D {
-    GR_INT x;
-    GR_INT y;
-    GR_INT z;
-};
-
-struct _GR_PHYSICAL_GPU_IMAGE_PROPERTIES {
-    GR_UINT     maxSliceWidth;
-    GR_UINT     maxSliceHeight;
-    GR_UINT     maxDepth;
-    GR_UINT     maxArraySlices;
-    GR_UINT     reserved1;
-    GR_UINT     reserved2;
-    GR_GPU_SIZE maxMemoryAlignment;
-    GR_UINT32   sparseImageSupportLevel;
-    GR_FLAGS    flags;
-};
-
-struct _GR_PHYSICAL_GPU_MEMORY_PROPERTIES {
-    GR_FLAGS    flags;
-    GR_GPU_SIZE virtualMemPageSize;
-    GR_GPU_SIZE maxVirtualMemSize;
-    GR_GPU_SIZE maxPhysicalMemSize;
-};
-
-struct _GR_PHYSICAL_GPU_PERFORMANCE {
-    GR_FLOAT maxGpuClock;
-    GR_FLOAT aluPerClock;
-    GR_FLOAT texPerClock;
-    GR_FLOAT primsPerClock;
-    GR_FLOAT pixelsPerClock;
-};
-
-struct _GR_PHYSICAL_GPU_PROPERTIES {
-    GR_UINT32   apiVersion;
-    GR_UINT32   driverVersion;
-    GR_UINT32   vendorId;
-    GR_UINT32   deviceId;
-    GR_ENUM     gpuType;
-    GR_CHAR     gpuName[GR_MAX_PHYSICAL_GPU_NAME];
-    GR_UINT     maxMemRefsPerSubmission;
-    GR_GPU_SIZE reserved;
-    GR_GPU_SIZE maxInlineMemoryUpdateSize;
-    GR_UINT     maxBoundDescriptorSets;
-    GR_UINT     maxThreadGroupSize;
-    GR_UINT64   timestampFrequency;
-    GR_BOOL     multiColorTargetClears;
-};
-
-struct _GR_RECT {
-    GR_OFFSET2D offset;
-    GR_EXTENT2D extent;
-};
 
 
-
-/* functions */
+// functions
 MAGMA_EXTERN GR_RESULT (GR_STDCALL *grBeginCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer,
     GR_FLAGS      flags
@@ -335,7 +200,7 @@ MAGMA_EXTERN GR_RESULT (GR_STDCALL *grResetCommandBuffer)(
 
 
 
-/* enumerations */
+// enumerations
 typedef enum _GR_CHANNEL_FORMAT {
     GR_CH_FMT_UNDEFINED,
     GR_CH_FMT_R4G4,
@@ -518,7 +383,7 @@ typedef enum _GR_VALIDATION_LEVEL {
 
 
 
-/* flags */
+// flags
 typedef enum _GR_CMD_BUFFER_BUILD_FLAGS {
     GR_CMD_BUFFER_OPTIMIZE_GPU_SMALL_BATCH       = 1 << 0,
     GR_CMD_BUFFER_OPTIMIZE_PIPELINE_SWITCH       = 1 << 1,
@@ -547,6 +412,144 @@ typedef enum _GR_MEMORY_PROPERTY_FLAGS {
 typedef enum _GR_MEMORY_REF_FLAGS {
     GR_MEMORY_REF_READ_ONLY = 1 << 0
 } GR_MEMORY_REF_FLAGS;
+
+
+
+// structures
+struct _GR_ALLOC_CALLBACKS {
+    GR_ALLOC_FUNCTION pfnAlloc;
+    GR_FREE_FUNCTION  pfnFree;
+};
+
+struct _GR_APPLICATION_INFO {
+    const GR_CHAR *pAppName;
+    GR_UINT32      appVersion;
+    const GR_CHAR *pEngineName;
+    GR_UINT32      engineVersion;
+    GR_UINT32      apiVersion;
+};
+
+struct _GR_CMD_BUFFER_CREATE_INFO {
+    GR_ENUM  queueType;
+    GR_FLAGS flags;
+};
+
+struct _GR_DEVICE_CREATE_INFO {
+    GR_UINT                            queueRecordCount;
+    const GR_DEVICE_QUEUE_CREATE_INFO *pRequestedQueues;
+    GR_UINT                            extensionCount;
+    const GR_CHAR *const              *ppEnabledExtensionNames;
+    GR_ENUM                            maxValidationLevel;
+    GR_FLAGS                           flags;
+};
+
+struct _GR_DEVICE_QUEUE_CREATE_INFO {
+    GR_ENUM queueType;
+    GR_UINT queueCount;
+};
+
+struct _GR_EXTENT2D {
+    GR_INT width;
+    GR_INT height;
+};
+
+struct _GR_EXTENT3D {
+    GR_INT width;
+    GR_INT height;
+    GR_INT depth;
+};
+
+struct _GR_FORMAT {
+    GR_UINT32 channelFormat : 16;
+    GR_UINT32 numericFormat : 16;
+};
+
+struct _GR_IMAGE_SUBRESOURCE_RANGE {
+    GR_ENUM aspect;
+    GR_UINT baseMipLevel;
+    GR_UINT mipLevels;
+    GR_UINT baseArraySlice;
+    GR_UINT arraySize;
+};
+
+struct _GR_IMAGE_STATE_TRANSITION {
+    GR_IMAGE                   image;
+    GR_ENUM                    oldState;
+    GR_ENUM                    newState;
+    GR_IMAGE_SUBRESOURCE_RANGE subresourceRange;
+};
+
+struct _GR_MEMORY_REF {
+    GR_GPU_MEMORY mem;
+    GR_FLAGS      flags;
+};
+
+struct _GR_MEMORY_STATE_TRANSITION {
+    GR_GPU_MEMORY mem;
+    GR_ENUM       oldState;
+    GR_ENUM       newState;
+    GR_GPU_SIZE   offset;
+    GR_GPU_SIZE   regionSize;
+};
+
+struct _GR_OFFSET2D {
+    GR_INT x;
+    GR_INT y;
+};
+
+struct _GR_OFFSET3D {
+    GR_INT x;
+    GR_INT y;
+    GR_INT z;
+};
+
+struct _GR_PHYSICAL_GPU_IMAGE_PROPERTIES {
+    GR_UINT     maxSliceWidth;
+    GR_UINT     maxSliceHeight;
+    GR_UINT     maxDepth;
+    GR_UINT     maxArraySlices;
+    GR_UINT     reserved1;
+    GR_UINT     reserved2;
+    GR_GPU_SIZE maxMemoryAlignment;
+    GR_UINT32   sparseImageSupportLevel;
+    GR_FLAGS    flags;
+};
+
+struct _GR_PHYSICAL_GPU_MEMORY_PROPERTIES {
+    GR_FLAGS    flags;
+    GR_GPU_SIZE virtualMemPageSize;
+    GR_GPU_SIZE maxVirtualMemSize;
+    GR_GPU_SIZE maxPhysicalMemSize;
+};
+
+struct _GR_PHYSICAL_GPU_PERFORMANCE {
+    GR_FLOAT maxGpuClock;
+    GR_FLOAT aluPerClock;
+    GR_FLOAT texPerClock;
+    GR_FLOAT primsPerClock;
+    GR_FLOAT pixelsPerClock;
+};
+
+struct _GR_PHYSICAL_GPU_PROPERTIES {
+    GR_UINT32   apiVersion;
+    GR_UINT32   driverVersion;
+    GR_UINT32   vendorId;
+    GR_UINT32   deviceId;
+    GR_ENUM     gpuType;
+    GR_CHAR     gpuName[GR_MAX_PHYSICAL_GPU_NAME];
+    GR_UINT     maxMemRefsPerSubmission;
+    GR_GPU_SIZE reserved;
+    GR_GPU_SIZE maxInlineMemoryUpdateSize;
+    GR_UINT     maxBoundDescriptorSets;
+    GR_UINT     maxThreadGroupSize;
+    GR_UINT64   timestampFrequency;
+    GR_BOOL     multiColorTargetClears;
+};
+
+struct _GR_RECT {
+    GR_OFFSET2D offset;
+    GR_EXTENT2D extent;
+};
 
 
 
