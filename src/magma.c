@@ -12,15 +12,18 @@
 
 
 
+static int     g_count  = 0;
 static HMODULE g_mantle = NULL;
 
 MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
-	if(g_mantle) {
-		return MAGMA_ERROR_ALREADY_INITIALIZED;
+	if(g_count++ > 0) {
+		return MAGMA_SUCCESS;
 	}
+
 	g_mantle = LoadLibrary("mantle64.dll");
 	if(!g_mantle) {
-		return MAGMA_ERROR_INITIALIZATION_FAILED;
+		--g_count;
+		return MAGMA_ERROR_DLL_NOT_FOUND;
 	}
 
 	LOAD(g_mantle, grBeginCommandBuffer);
@@ -59,6 +62,10 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 }
 
 MAGMA_STDCALL void magmaTerminate(void) {
+	if(g_count == 0 || --g_count > 0) {
+		return;
+	}
+
 	grBeginCommandBuffer      = NULL;
 	grBindObjectMemory        = NULL;
 	grCmdClearColorImage      = NULL;

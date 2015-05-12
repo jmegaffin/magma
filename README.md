@@ -27,13 +27,12 @@ Simply include `magma.h` and use these functions in your application:
 - `MAGMA_RESULT magmaInit(void)`: Loads the function pointers.
 - `void magmaTerminate(void)`: Frees the function pointers.
 
-It is safe to call `magmaInit` again after calling `magmaTerminate`.
+It is safe to call `magmaInit` again after calling `magmaTerminate`.  The functions are also reference-counted, so as long as each call to `magmaInit` is matched with a call to `magmaTerminate` the Mantle function pointers will be loaded and freed correctly.
 
 `magmaInit` will return one of these codes:
 
 - `MAGMA_SUCCESS`: Indicates that the function pointers were loaded successfully.
-- `MAGMA_ERROR_ALREADY_INITIALIZED`: Indicates a redundant call to `magmaInit`.
-- `MAGMA_ERROR_INITIALIZATION_FAILED`: Indicates that the appropriate Mantle DLL was not found.  `magmaTerminate` does not need to be called.
+- `MAGMA_ERROR_DLL_NOT_FOUND`: Indicates that the appropriate Mantle DLL was not found.  `magmaTerminate` does not need to be called.
 
 In order to access the actual Mantle API, the appropriate headers, such as `mantle.h` and `mantleWsiWinExt.h`, must be included.
 
