@@ -56,7 +56,15 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	LOAD(g_mantle, grDbgUnregisterMsgCallback);
 
 	LOAD(g_mantle, grWsiWinCreatePresentableImage);
+	LOAD(g_mantle, grWsiWinGetDisplayModeList);
+	LOAD(g_mantle, grWsiWinGetDisplays);
+	LOAD(g_mantle, grWsiWinGetScanLine);
 	LOAD(g_mantle, grWsiWinQueuePresent);
+	LOAD(g_mantle, grWsiWinReleaseFullscreenOwnership);
+	LOAD(g_mantle, grWsiWinSetGammaRamp);
+	LOAD(g_mantle, grWsiWinSetMaxQueuedFrames);
+	LOAD(g_mantle, grWsiWinTakeFullscreenOwnership);
+	LOAD(g_mantle, grWsiWinWaitForVerticalBlank);
 
 	return MAGMA_SUCCESS;
 }
@@ -95,8 +103,16 @@ MAGMA_STDCALL void magmaTerminate(void) {
 	grDbgSetValidationLevel    = NULL;
 	grDbgUnregisterMsgCallback = NULL;
 
-	grWsiWinCreatePresentableImage = NULL;
-	grWsiWinQueuePresent           = NULL;
+	grWsiWinCreatePresentableImage     = NULL;
+	grWsiWinGetDisplayModeList         = NULL;
+	grWsiWinGetDisplays                = NULL;
+	grWsiWinGetScanLine                = NULL;
+	grWsiWinQueuePresent               = NULL;
+	grWsiWinReleaseFullscreenOwnership = NULL;
+	grWsiWinSetGammaRamp               = NULL;
+	grWsiWinSetMaxQueuedFrames         = NULL;
+	grWsiWinTakeFullscreenOwnership    = NULL;
+	grWsiWinWaitForVerticalBlank       = NULL;
 
 	if(g_mantle) {
 		FreeLibrary(g_mantle);

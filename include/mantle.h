@@ -84,6 +84,7 @@ typedef struct _GR_PHYSICAL_GPU_IMAGE_PROPERTIES  GR_PHYSICAL_GPU_IMAGE_PROPERTI
 typedef struct _GR_PHYSICAL_GPU_MEMORY_PROPERTIES GR_PHYSICAL_GPU_MEMORY_PROPERTIES;
 typedef struct _GR_PHYSICAL_GPU_PERFORMANCE       GR_PHYSICAL_GPU_PERFORMANCE;
 typedef struct _GR_PHYSICAL_GPU_PROPERTIES        GR_PHYSICAL_GPU_PROPERTIES;
+typedef struct _GR_RECT                           GR_RECT;
 
 struct _GR_ALLOC_CALLBACKS {
     GR_ALLOC_FUNCTION pfnAlloc;
@@ -213,6 +214,11 @@ struct _GR_PHYSICAL_GPU_PROPERTIES {
     GR_UINT     maxThreadGroupSize;
     GR_UINT64   timestampFrequency;
     GR_BOOL     multiColorTargetClears;
+};
+
+struct _GR_RECT {
+    GR_OFFSET2D offset;
+    GR_EXTENT2D extent;
 };
 
 
@@ -450,7 +456,7 @@ typedef enum _GR_QUEUE_TYPE {
     GR_QUEUE_COMPUTE
 } GR_QUEUE_TYPE;
 
-typedef enum _GR_RESULT_CODE {
+typedef enum _GR_RETURN_CODE {
     GR_SUCCESS = 0x10000,
     GR_UNSUPPORTED,
     GR_NOT_READY,
@@ -492,7 +498,7 @@ typedef enum _GR_RESULT_CODE {
     GR_ERROR_MEMORY_NOT_BOUND,
     GR_ERROR_INCOMPATIBLE_QUEUE,
     GR_ERROR_NOT_SHAREABLE
-} GR_RESULT_CODE;
+} GR_RETURN_CODE;
 
 typedef enum _GR_SYSTEM_ALLOC_TYPE {
     GR_SYSTEM_ALLOC_API_OBJECT = 0x2e00,
