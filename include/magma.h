@@ -12,7 +12,6 @@ typedef char MAGMA_RESULT;
 
 /* functions */
 MAGMA_STDCALL MAGMA_RESULT magmaInit(void);
-
 MAGMA_STDCALL void magmaTerminate(void);
 
 

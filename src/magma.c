@@ -6,12 +6,9 @@
 #include <mantleWsiWinExt.h>
 #undef extern
 
-#include <stdio.h>
-
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#define RESET(function) function = NULL
 #define LOAD(module, function) *(void **)&function = (void *)GetProcAddress(module, #function)
 
 

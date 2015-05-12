@@ -11,8 +11,7 @@ extern "C" {
 
 
 
-/* constants
-   NOTE: values are guessed as they are not defined by the Mantle specification */
+/* constants (guessed) */
 #define GR_API_VERSION           1
 #define GR_MAX_PHYSICAL_GPU_NAME 256
 #define GR_MAX_PHYSICAL_GPUS     4
@@ -49,7 +48,7 @@ typedef uint64_t GR_QUEUE;
 
 
 
-/* function pointer types */
+/* callbacks */
 typedef GR_VOID *(GR_STDCALL *GR_ALLOC_FUNCTION)(
     GR_SIZE size,
     GR_SIZE alignment,
