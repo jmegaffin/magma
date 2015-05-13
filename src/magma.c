@@ -13,8 +13,12 @@
 
 
 
-static int     g_count  = 0;
-static HMODULE g_mantle = NULL;
+static int g_count = 0;
+
+static HMODULE g_mantle    = NULL;
+static HMODULE g_mantleaxl = NULL;
+
+
 
 MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	if(g_count++ > 0) {
@@ -22,7 +26,8 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	}
 
 	g_mantle = LoadLibrary("mantle64.dll");
-	if(!g_mantle) {
+	g_mantleaxl = LoadLibrary("mantleaxl64.dll");
+	if(!g_mantle || !g_mantleaxl) {
 		--g_count;
 		return MAGMA_ERROR_DLL_NOT_FOUND;
 	}
@@ -92,6 +97,8 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 
 	return MAGMA_SUCCESS;
 }
+
+
 
 MAGMA_STDCALL void magmaTerminate(void) {
 	if(g_count == 0 || --g_count > 0) {

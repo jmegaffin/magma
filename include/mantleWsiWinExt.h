@@ -51,39 +51,48 @@ MAGMA_FUNCTION(grWsiWinGetDisplays)(
 	GR_UINT            *pDisplayCount,
 	GR_WSI_WIN_DISPLAY *pDisplayList
 );
+
 MAGMA_FUNCTION(grWsiWinGetDisplayModeList)(
 	GR_WSI_WIN_DISPLAY       display,
 	GR_UINT                 *pDisplayModeCount,
 	GR_WSI_WIN_DISPLAY_MODE *pDisplayModeList
 );
+
 MAGMA_FUNCTION(grWsiWinTakeFullscreenOwnership)(
 	GR_WSI_WIN_DISPLAY display,
 	GR_IMAGE image
 );
+
 MAGMA_FUNCTION(grWsiWinReleaseFullscreenOwnership)(
 	GR_WSI_WIN_DISPLAY display
 );
+
 MAGMA_FUNCTION(grWsiWinSetGammaRamp)(
 	GR_WSI_WIN_DISPLAY           display,
 	const GR_WSI_WIN_GAMMA_RAMP *pGammaRamp
 );
+
 MAGMA_FUNCTION(grWsiWinWaitForVerticalBlank)(
 	GR_WSI_WIN_DISPLAY display
 );
+
 MAGMA_FUNCTION(grWsiWinGetScanLine)(
 	GR_WSI_WIN_DISPLAY display,
 	GR_INT            *pScanLine
 );
+
 MAGMA_FUNCTION(grWsiWinCreatePresentableImage)(
 	GR_DEVICE                                       device,
 	const GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO *pCreateInfo,
 	GR_IMAGE                                       *pImage,
 	GR_GPU_MEMORY                                  *pMem
 );
+
 MAGMA_FUNCTION(grWsiWinQueuePresent)(
 	GR_QUEUE                       queue,
 	const GR_WSI_WIN_PRESENT_INFO *pPresentInfo
 );
+
 MAGMA_FUNCTION(grWsiWinSetMaxQueuedFrames)(
 	GR_DEVICE device,
 	GR_UINT   maxFrames
