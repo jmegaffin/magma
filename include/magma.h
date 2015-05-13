@@ -5,8 +5,8 @@
 
 
 
-// type aliases
-typedef char MAGMA_RESULT;
+// forward declarations
+typedef enum _MAGMA_RESULT MAGMA_RESULT;
 
 
 
@@ -17,10 +17,10 @@ MAGMA_STDCALL void magmaTerminate(void);
 
 
 // enumerations
-typedef enum _MAGMA_RESULT_CODE {
+enum _MAGMA_RESULT {
 	MAGMA_SUCCESS,
 	MAGMA_ERROR_DLL_NOT_FOUND
-} MAGMA_RESULT_CODE;
+};
 
 
 
