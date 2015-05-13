@@ -20,8 +20,8 @@ extern "C" {
 // constants (some guessed)
 #define GR_API_VERSION           1
 #define GR_MAX_MEMORY_HEAPS      8
-#define GR_MAX_PHYSICAL_GPU_NAME 256
 #define GR_MAX_PHYSICAL_GPUS     4
+#define GR_MAX_PHYSICAL_GPU_NAME 256
 #define GR_NULL_HANDLE           0
 
 
@@ -44,9 +44,12 @@ typedef int32_t  GR_FLAGS;
 
 typedef uint64_t GR_BASE_OBJECT;
 typedef uint64_t GR_CMD_BUFFER;
+typedef uint64_t GR_COLOR_TARGET_VIEW;
+typedef uint64_t GR_DEPTH_STENCIL_VIEW;
 typedef uint64_t GR_DEVICE;
 typedef uint64_t GR_FENCE;
 typedef uint64_t GR_IMAGE;
+typedef uint64_t GR_IMAGE_VIEW;
 typedef uint64_t GR_GPU_MEMORY;
 typedef uint64_t GR_OBJECT;
 typedef uint64_t GR_PHYSICAL_GPU;
@@ -58,9 +61,12 @@ typedef uint64_t GR_SAMPLER;
 
 // forward declarations
 typedef enum _GR_CHANNEL_FORMAT    GR_CHANNEL_FORMAT;
+typedef enum _GR_CHANNEL_SWIZZLE   GR_CHANNEL_SWIZZLE;
 typedef enum _GR_COMPARE_FUNC      GR_COMPARE_FUNC;
+typedef enum _GR_HEAP_MEMORY_TYPE  GR_HEAP_MEMORY_TYPE;
 typedef enum _GR_IMAGE_ASPECT      GR_IMAGE_ASPECT;
 typedef enum _GR_IMAGE_STATE       GR_IMAGE_STATE;
+typedef enum _GR_IMAGE_VIEW_TYPE   GR_IMAGE_VIEW_TYPE;
 typedef enum _GR_INFO_TYPE         GR_INFO_TYPE;
 typedef enum _GR_MEMORY_STATE      GR_MEMORY_STATE;
 typedef enum _GR_NUM_FORMAT        GR_NUM_FORMAT;
@@ -72,16 +78,21 @@ typedef enum _GR_TEX_ADDRESS       GR_TEX_ADDRESS;
 typedef enum _GR_TEX_FILTER        GR_TEX_FILTER;
 typedef enum _GR_VALIDATION_LEVEL  GR_VALIDATION_LEVEL;
 
-typedef enum _GR_CMD_BUFFER_BUILD_FLAGS GR_CMD_BUFFER_BUILD_FLAGS;
-typedef enum _GR_DEVICE_CREATE_FLAGS    GR_DEVICE_CREATE_FLAGS;
-typedef enum _GR_IMAGE_CREATE_FLAGS     GR_IMAGE_CREATE_FLAGS;
-typedef enum _GR_IMAGE_USAGE_FLAGS      GR_IMAGE_USAGE_FLAGS;
-typedef enum _GR_MEMORY_PROPERTY_FLAGS  GR_MEMORY_PROPERTY_FLAGS;
-typedef enum _GR_MEMORY_REF_FLAGS       GR_MEMORY_REF_FLAGS;
+typedef enum _GR_CMD_BUFFER_BUILD_FLAGS          GR_CMD_BUFFER_BUILD_FLAGS;
+typedef enum _GR_DEPTH_STENCIL_VIEW_CREATE_FLAGS GR_DEPTH_STENCIL_VIEW_CREATE_FLAGS;
+typedef enum _GR_DEVICE_CREATE_FLAGS             GR_DEVICE_CREATE_FLAGS;
+typedef enum _GR_IMAGE_CREATE_FLAGS              GR_IMAGE_CREATE_FLAGS;
+typedef enum _GR_IMAGE_USAGE_FLAGS               GR_IMAGE_USAGE_FLAGS;
+typedef enum _GR_MEMORY_HEAP_FLAGS               GR_MEMORY_HEAP_FLAGS;
+typedef enum _GR_MEMORY_PROPERTY_FLAGS           GR_MEMORY_PROPERTY_FLAGS;
+typedef enum _GR_MEMORY_REF_FLAGS                GR_MEMORY_REF_FLAGS;
 
 typedef struct _GR_ALLOC_CALLBACKS                GR_ALLOC_CALLBACKS;
 typedef struct _GR_APPLICATION_INFO               GR_APPLICATION_INFO;
+typedef struct _GR_CHANNEL_MAPPING                GR_CHANNEL_MAPPING;
 typedef struct _GR_CMD_BUFFER_CREATE_INFO         GR_CMD_BUFFER_CREATE_INFO;
+typedef struct _GR_COLOR_TARGET_VIEW_CREATE_INFO  GR_COLOR_TARGET_VIEW_CREATE_INFO;
+typedef struct _GR_DEPTH_STENCIL_VIEW_CREATE_INFO GR_DEPTH_STENCIL_VIEW_CREATE_INFO;
 typedef struct _GR_DEVICE_CREATE_INFO             GR_DEVICE_CREATE_INFO;
 typedef struct _GR_DEVICE_QUEUE_CREATE_INFO       GR_DEVICE_QUEUE_CREATE_INFO;
 typedef struct _GR_EXTENT2D                       GR_EXTENT2D;
@@ -91,7 +102,9 @@ typedef struct _GR_IMAGE_CREATE_INFO              GR_IMAGE_CREATE_INFO;
 typedef struct _GR_IMAGE_STATE_TRANSITION         GR_IMAGE_STATE_TRANSITION;
 typedef struct _GR_IMAGE_SUBRESOURCE              GR_IMAGE_SUBRESOURCE;
 typedef struct _GR_IMAGE_SUBRESOURCE_RANGE        GR_IMAGE_SUBRESOURCE_RANGE;
+typedef struct _GR_IMAGE_VIEW_CREATE_INFO         GR_IMAGE_VIEW_CREATE_INFO;
 typedef struct _GR_MEMORY_ALLOC_INFO              GR_MEMORY_ALLOC_INFO;
+typedef struct _GR_MEMORY_HEAP_PROPERTIES         GR_MEMORY_HEAP_PROPERTIES;
 typedef struct _GR_MEMORY_REF                     GR_MEMORY_REF;
 typedef struct _GR_MEMORY_STATE_TRANSITION        GR_MEMORY_STATE_TRANSITION;
 typedef struct _GR_OFFSET2D                       GR_OFFSET2D;
@@ -297,6 +310,23 @@ MAGMA_FUNCTION(grCreateSampler)(
 
 
 // image view functions
+MAGMA_FUNCTION(grCreateImageView)(
+    GR_DEVICE                        device,
+    const GR_IMAGE_VIEW_CREATE_INFO *pCreateInfo,
+    GR_IMAGE_VIEW                   *pView
+);
+
+MAGMA_FUNCTION(grCreateColorTargetView)(
+    GR_DEVICE                               device,
+    const GR_COLOR_TARGET_VIEW_CREATE_INFO *pCreateInfo,
+    GR_COLOR_TARGET_VIEW                   *pView
+);
+
+MAGMA_FUNCTION(grCreateDepthStencilView)(
+    GR_DEVICE                                device,
+    const GR_DEPTH_STENCIL_VIEW_CREATE_INFO *pCreateInfo,
+    GR_DEPTH_STENCIL_VIEW                   *pView
+);
 
 
 
@@ -408,6 +438,15 @@ enum _GR_CHANNEL_FORMAT {
     GR_CH_FMT_BC7
 };
 
+enum _GR_CHANNEL_SWIZZLE {
+    GR_CHANNEL_SWIZZLE_ZERO = 0x1800,
+    GR_CHANNEL_SWIZZLE_ONE,
+    GR_CHANNEL_SWIZZLE_R,
+    GR_CHANNEL_SWIZZLE_G,
+    GR_CHANNEL_SWIZZLE_B,
+    GR_CHANNEL_SWIZZLE_A
+};
+
 enum _GR_COMPARE_FUNC {
     GR_COMPARE_NEVER = 0x2500,
     GR_COMPARE_LESS,
@@ -417,6 +456,18 @@ enum _GR_COMPARE_FUNC {
     GR_COMPARE_NOT_EQUAL,
     GR_COMPARE_GREATER_EQUAL,
     GR_COMPARE_ALWAYS
+};
+
+enum _GR_DEPTH_STENCIL_VIEW_CREATE_FLAGS {
+    GR_DEPTH_STENCIL_VIEW_CREATE_READ_ONLY_DEPTH   = 1 << 0,
+    GR_DEPTH_STENCIL_VIEW_CREATE_READ_ONLY_STENCIL = 1 << 1
+};
+
+enum _GR_HEAP_MEMORY_TYPE {
+    GR_HEAP_MEMORY_OTHER = 0x2f00,
+    GR_HEAP_MEMORY_LOCAL,
+    GR_HEAP_MEMORY_REMOTE,
+    GR_HEAP_MEMORY_EMBEDDED
 };
 
 enum _GR_IMAGE_ASPECT {
@@ -455,6 +506,13 @@ enum _GR_IMAGE_TYPE {
     GR_IMAGE_1D = 0x1400,
     GR_IMAGE_2D,
     GR_IMAGE_3D
+};
+
+enum _GR_IMAGE_VIEW_TYPE {
+    GR_IMAGE_VIEW_1D = 0x1600,
+    GR_IMAGE_VIEW_2D,
+    GR_IMAGE_VIEW_3D,
+    GR_IMAGE_VIEW_CUBE
 };
 
 enum _GR_INFO_TYPE {
@@ -624,6 +682,15 @@ enum _GR_IMAGE_USAGE_FLAGS {
     GR_IMAGE_USAGE_DEPTH_STENCIL       = 1 << 3
 };
 
+enum _GR_MEMORY_HEAP_FLAGS {
+    GR_MEMORY_HEAP_CPU_VISIBLE        = 1 << 0,
+    GR_MEMORY_HEAP_CPU_GPU_COHERENT   = 1 << 1,
+    GR_MEMORY_HEAP_CPU_UNCACHED       = 1 << 2,
+    GR_MEMORY_HEAP_CPU_WRITE_COMBINED = 1 << 3,
+    GR_MEMORY_HEAP_HOLDS_PINNED       = 1 << 4,
+    GR_MEMORY_HEAP_HEAP_SHAREABLE     = 1 << 5
+};
+
 enum _GR_MEMORY_PROPERTY_FLAGS {
     GR_MEMORY_MIGRATION_SUPPORT         = 1 << 0,
     GR_MEMORY_VIRTUAL_REMAPPING_SUPPORT = 1 << 1,
@@ -637,7 +704,7 @@ enum _GR_MEMORY_REF_FLAGS {
 
 
 
-// structures
+// primary structures
 struct _GR_ALLOC_CALLBACKS {
     GR_ALLOC_FUNCTION pfnAlloc;
     GR_FREE_FUNCTION  pfnFree;
@@ -651,18 +718,24 @@ struct _GR_APPLICATION_INFO {
     GR_UINT32      apiVersion;
 };
 
+struct _GR_CHANNEL_MAPPING {
+    GR_ENUM r;
+    GR_ENUM g;
+    GR_ENUM b;
+    GR_ENUM a;
+};
+
 struct _GR_CMD_BUFFER_CREATE_INFO {
     GR_ENUM  queueType;
     GR_FLAGS flags;
 };
 
-struct _GR_DEVICE_CREATE_INFO {
-    GR_UINT                            queueRecordCount;
-    const GR_DEVICE_QUEUE_CREATE_INFO *pRequestedQueues;
-    GR_UINT                            extensionCount;
-    const GR_CHAR *const              *ppEnabledExtensionNames;
-    GR_ENUM                            maxValidationLevel;
-    GR_FLAGS                           flags;
+struct _GR_DEPTH_STENCIL_CREATE_INFO {
+    GR_IMAGE image;
+    GR_UINT  mipLevel;
+    GR_UINT  baseArraySlice;
+    GR_UINT  arraySize;
+    GR_FLAGS flags;
 };
 
 struct _GR_DEVICE_QUEUE_CREATE_INFO {
@@ -712,13 +785,6 @@ struct _GR_IMAGE_SUBRESOURCE_RANGE {
     GR_UINT arraySize;
 };
 
-struct _GR_IMAGE_STATE_TRANSITION {
-    GR_IMAGE                   image;
-    GR_ENUM                    oldState;
-    GR_ENUM                    newState;
-    GR_IMAGE_SUBRESOURCE_RANGE subresourceRange;
-};
-
 struct _GR_MEMORY_ALLOC_INFO {
     GR_GPU_SIZE size;
     GR_GPU_SIZE alignment;
@@ -726,6 +792,17 @@ struct _GR_MEMORY_ALLOC_INFO {
     GR_UINT     heapCount;
     GR_UINT     heaps[GR_MAX_MEMORY_HEAPS];
     GR_ENUM     memPriority;
+};
+
+struct _GR_MEMORY_HEAP_PROPERTIES {
+    GR_ENUM     heapMemoryType;
+    GR_GPU_SIZE heapSize;
+    GR_GPU_SIZE pageSize;
+    GR_FLAGS    flags;
+    GR_FLOAT    gpuReadPerfRating;
+    GR_FLOAT    gpuWritePerfRating;
+    GR_FLOAT    cpuReadPerfRating;
+    GR_FLOAT    cpuWritePerfRating;
 };
 
 struct _GR_MEMORY_REF {
@@ -819,6 +896,42 @@ struct _GR_VIRTUAL_MEMORY_REMAP_RANGE {
     GR_GPU_MEMORY realMem;
     GR_GPU_SIZE   realStartPage;
     GR_GPU_SIZE   pageCount;
+};
+
+
+
+// secondary structures
+struct _GR_COLOR_TARGET_CREATE_INFO {
+    GR_IMAGE  image;
+    GR_FORMAT format;
+    GR_UINT   mipLevel;
+    GR_UINT   baseArraySlice;
+    GR_UINT   arraySize;
+};
+
+struct _GR_DEVICE_CREATE_INFO {
+    GR_UINT                            queueRecordCount;
+    const GR_DEVICE_QUEUE_CREATE_INFO *pRequestedQueues;
+    GR_UINT                            extensionCount;
+    const GR_CHAR *const              *ppEnabledExtensionNames;
+    GR_ENUM                            maxValidationLevel;
+    GR_FLAGS                           flags;
+};
+
+struct _GR_IMAGE_STATE_TRANSITION {
+    GR_IMAGE                   image;
+    GR_ENUM                    oldState;
+    GR_ENUM                    newState;
+    GR_IMAGE_SUBRESOURCE_RANGE subresourceRange;
+};
+
+struct _GR_IMAGE_VIEW_CREATE_INFO {
+    GR_IMAGE                   image;
+    GR_ENUM                    viewType;
+    GR_FORMAT                  format;
+    GR_CHANNEL_MAPPING         channels;
+    GR_IMAGE_SUBRESOURCE_RANGE subresourceRange;
+    GR_FLOAT                   minLod;
 };
 
 
