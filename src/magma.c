@@ -68,15 +68,86 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	LOAD(g_mantle, grCreateColorTargetView);
 	LOAD(g_mantle, grCreateDepthStencilView);
 
+	LOAD(g_mantle, grCreateShader);
+	LOAD(g_mantle, grCreateGraphicsPipeline);
+	LOAD(g_mantle, grCreateComputePipeline);
+	LOAD(g_mantle, grStorePipeline);
+	LOAD(g_mantle, grLoadPipeline);
+
+	LOAD(g_mantle, grCreateDescriptorSet);
+	LOAD(g_mantle, grBeginDescriptorSetUpdate);
+	LOAD(g_mantle, grEndDescriptorSetUpdate);
+	LOAD(g_mantle, grAttachSamplerDescriptors);
+	LOAD(g_mantle, grAttachImageViewDescriptors);
+	LOAD(g_mantle, grAttachMemoryViewDescriptors);
+	LOAD(g_mantle, grAttachNestedDescriptors);
+	LOAD(g_mantle, grClearDescriptorSetSlots);
+
+	LOAD(g_mantle, grCreateViewportState);
+	LOAD(g_mantle, grCreateRasterState);
+	LOAD(g_mantle, grCreateColorBlendState);
+	LOAD(g_mantle, grCreateDepthStencilState);
+	LOAD(g_mantle, grCreateMsaaState);
+
+	LOAD(g_mantle, grCreateQueryPool);
+	LOAD(g_mantle, grGetQueryPoolResults);
+	LOAD(g_mantle, grCreateFence);
+	LOAD(g_mantle, grGetFenceStatus);
+	LOAD(g_mantle, grWaitForFences);
+	LOAD(g_mantle, grCreateQueueSemaphore);
+	LOAD(g_mantle, grSignalQueueSemaphore);
+	LOAD(g_mantle, grWaitQueueSemaphore);
+	LOAD(g_mantle, grCreateEvent);
+	LOAD(g_mantle, grGetEventStatus);
+	LOAD(g_mantle, grSetEvent);
+	LOAD(g_mantle, grResetEvent);
+
+	LOAD(g_mantle, grGetMultiGpuCapability);
+	LOAD(g_mantle, grOpenSharedMemory);
+	LOAD(g_mantle, grOpenSharedQueueSemaphore);
+	LOAD(g_mantle, grOpenPeerMemory);
+	LOAD(g_mantle, grOpenPeerImage);
+
 	LOAD(g_mantle, grCreateCommandBuffer);
 	LOAD(g_mantle, grBeginCommandBuffer);
 	LOAD(g_mantle, grEndCommandBuffer);
 	LOAD(g_mantle, grResetCommandBuffer);
 
+	LOAD(g_mantle, grCmdBindPipeline);
+	LOAD(g_mantle, grCmdBindStateObject);
+	LOAD(g_mantle, grCmdBindDescriptorSet);
+	LOAD(g_mantle, grCmdBindDynamicMemoryView);
+	LOAD(g_mantle, grCmdBindIndexData);
+	LOAD(g_mantle, grCmdBindTargets);
 	LOAD(g_mantle, grCmdPrepareMemoryRegions);
 	LOAD(g_mantle, grCmdPrepareImages);
+	LOAD(g_mantle, grCmdDraw);
+	LOAD(g_mantle, grCmdDrawIndexed);
+	LOAD(g_mantle, grCmdDrawIndirect);
+	LOAD(g_mantle, grCmdDrawIndexedIndirect);
+	LOAD(g_mantle, grCmdDispatch);
+	LOAD(g_mantle, grCmdDispatchIndirect);
+	LOAD(g_mantle, grCmdCopyMemory);
+	LOAD(g_mantle, grCmdCopyImage);
+	LOAD(g_mantle, grCmdCopyMemoryToImage);
+	LOAD(g_mantle, grCmdCopyImageToMemory);
+	LOAD(g_mantle, grCmdResolveImage);
+	LOAD(g_mantle, grCmdCloneImageData);
+	LOAD(g_mantle, grCmdUpdateMemory);
+	LOAD(g_mantle, grCmdFillMemory);
 	LOAD(g_mantle, grCmdClearColorImage);
 	LOAD(g_mantle, grCmdClearColorImageRaw);
+	LOAD(g_mantle, grCmdClearDepthStencil);
+	LOAD(g_mantle, grCmdSetEvent);
+	LOAD(g_mantle, grCmdResetEvent);
+	LOAD(g_mantle, grCmdMemoryAtomic);
+	LOAD(g_mantle, grCmdBeginQuery);
+	LOAD(g_mantle, grCmdEndQuery);
+	LOAD(g_mantle, grCmdResetQueryPool);
+	LOAD(g_mantle, grCmdWriteTimestamp);
+	LOAD(g_mantle, grCmdInitAtomicCounters);
+	LOAD(g_mantle, grCmdLoadAtomicCounters);
+	LOAD(g_mantle, grCmdSaveAtomicCounters);
 
 	LOAD(g_mantle, grDbgSetValidationLevel);
 	LOAD(g_mantle, grDbgRegisterMsgCallback);
@@ -145,15 +216,86 @@ MAGMA_STDCALL void magmaTerminate(void) {
 	FREE(grCreateColorTargetView);
 	FREE(grCreateDepthStencilView);
 
+	FREE(grCreateShader);
+	FREE(grCreateGraphicsPipeline);
+	FREE(grCreateComputePipeline);
+	FREE(grStorePipeline);
+	FREE(grLoadPipeline);
+
+	FREE(grCreateDescriptorSet);
+	FREE(grBeginDescriptorSetUpdate);
+	FREE(grEndDescriptorSetUpdate);
+	FREE(grAttachSamplerDescriptors);
+	FREE(grAttachImageViewDescriptors);
+	FREE(grAttachMemoryViewDescriptors);
+	FREE(grAttachNestedDescriptors);
+	FREE(grClearDescriptorSetSlots);
+
+	FREE(grCreateViewportState);
+	FREE(grCreateRasterState);
+	FREE(grCreateColorBlendState);
+	FREE(grCreateDepthStencilState);
+	FREE(grCreateMsaaState);
+
+	FREE(grCreateQueryPool);
+	FREE(grGetQueryPoolResults);
+	FREE(grCreateFence);
+	FREE(grGetFenceStatus);
+	FREE(grWaitForFences);
+	FREE(grCreateQueueSemaphore);
+	FREE(grSignalQueueSemaphore);
+	FREE(grWaitQueueSemaphore);
+	FREE(grCreateEvent);
+	FREE(grGetEventStatus);
+	FREE(grSetEvent);
+	FREE(grResetEvent);
+
+	FREE(grGetMultiGpuCapability);
+	FREE(grOpenSharedMemory);
+	FREE(grOpenSharedQueueSemaphore);
+	FREE(grOpenPeerMemory);
+	FREE(grOpenPeerImage);
+
 	FREE(grCreateCommandBuffer);
 	FREE(grBeginCommandBuffer);
 	FREE(grEndCommandBuffer);
 	FREE(grResetCommandBuffer);
 
+	FREE(grCmdBindPipeline);
+	FREE(grCmdBindStateObject);
+	FREE(grCmdBindDescriptorSet);
+	FREE(grCmdBindDynamicMemoryView);
+	FREE(grCmdBindIndexData);
+	FREE(grCmdBindTargets);
 	FREE(grCmdPrepareMemoryRegions);
 	FREE(grCmdPrepareImages);
+	FREE(grCmdDraw);
+	FREE(grCmdDrawIndexed);
+	FREE(grCmdDrawIndirect);
+	FREE(grCmdDrawIndexedIndirect);
+	FREE(grCmdDispatch);
+	FREE(grCmdDispatchIndirect);
+	FREE(grCmdCopyMemory);
+	FREE(grCmdCopyImage);
+	FREE(grCmdCopyMemoryToImage);
+	FREE(grCmdCopyImageToMemory);
+	FREE(grCmdResolveImage);
+	FREE(grCmdCloneImageData);
+	FREE(grCmdUpdateMemory);
+	FREE(grCmdFillMemory);
 	FREE(grCmdClearColorImage);
 	FREE(grCmdClearColorImageRaw);
+	FREE(grCmdClearDepthStencil);
+	FREE(grCmdSetEvent);
+	FREE(grCmdResetEvent);
+	FREE(grCmdMemoryAtomic);
+	FREE(grCmdBeginQuery);
+	FREE(grCmdEndQuery);
+	FREE(grCmdResetQueryPool);
+	FREE(grCmdWriteTimestamp);
+	FREE(grCmdInitAtomicCounters);
+	FREE(grCmdLoadAtomicCounters);
+	FREE(grCmdSaveAtomicCounters);
 
 	FREE(grDbgSetValidationLevel);
 	FREE(grDbgRegisterMsgCallback);
