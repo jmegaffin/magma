@@ -322,4 +322,9 @@ MAGMA_STDCALL void magmaTerminate(void) {
 		FreeLibrary(g_mantle);
 		g_mantle = NULL;
 	}
+
+	if(g_mantleaxl) {
+		FreeLibrary(g_mantleaxl);
+		g_mantleaxl;
+	}
 }
