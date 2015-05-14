@@ -29,7 +29,7 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	g_mantleaxl = LoadLibrary("mantleaxl64.dll");
 	if(!g_mantle || !g_mantleaxl) {
 		--g_count;
-		return MAGMA_ERROR_DLL_NOT_FOUND;
+		return MAGMA_ERROR_DLLS_NOT_FOUND;
 	}
 
 	LOAD(g_mantle, grInitAndEnumerateGpus);

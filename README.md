@@ -1,7 +1,7 @@
 About
 =====
 
-*magma* is a simple library that enables anybody to use AMD's Mantle API.  It reconstructs the Mantle headers using information from the [Mantle documentation and reference](http://www.amd.com/Documents/Mantle-Programming-Guide-and-API-Reference.pdf), and it can load the function pointers from the appropriate Mantle DLL for you.
+*magma* is a simple library that enables anybody to use AMD's Mantle API.  It reconstructs the Mantle headers using information from the [Mantle documentation and reference](http://www.amd.com/Documents/Mantle-Programming-Guide-and-API-Reference.pdf), and it can load the function pointers from the appropriate Mantle DLLs for you.
 
 Status
 ======
@@ -35,7 +35,7 @@ It is safe to call `magmaInit` again after calling `magmaTerminate`.  The functi
 `magmaInit` will return one of these codes:
 
 - `MAGMA_SUCCESS`: Indicates that the function pointers were loaded successfully.
-- `MAGMA_ERROR_DLL_NOT_FOUND`: Indicates that the appropriate Mantle DLL was not found.  `magmaTerminate` does not need to be called.
+- `MAGMA_ERROR_DLLS_NOT_FOUND`: Indicates that the appropriate Mantle DLLs were not found.  `magmaTerminate` does not need to be called.
 
 In order to access the actual Mantle API, the appropriate headers, such as `mantle.h` and `mantleWsiWinExt.h`, must be included.
 

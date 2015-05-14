@@ -20,7 +20,7 @@ MAGMA_STDCALL void magmaTerminate(void);
 // enumerations
 enum _MAGMA_RESULT {
 	MAGMA_SUCCESS,
-	MAGMA_ERROR_DLL_NOT_FOUND
+	MAGMA_ERROR_DLLS_NOT_FOUND
 };
 
 
