@@ -3,6 +3,7 @@
 #define MAGMA_EXTERN
 #include <mantle.h>
 #include <mantleDbg.h>
+#include <mantleExt.h>
 #include <mantleWsiWinExt.h>
 
 #define WIN32_LEAN_AND_MEAN
@@ -170,6 +171,31 @@ MAGMA_STDCALL MAGMA_RESULT magmaInit(void) {
 	LOAD(g_mantle, grWsiWinQueuePresent);
 	LOAD(g_mantle, grWsiWinSetMaxQueuedFrames);
 
+	LOAD(g_mantleaxl, grGetExtensionLibraryVersion);
+
+	LOAD(g_mantleaxl, grCreateBorderColorPalette);
+	LOAD(g_mantleaxl, grUpdateBorderColorPalette);
+	LOAD(g_mantleaxl, grCmdBindBorderColorPalette);
+
+	LOAD(g_mantleaxl, grCreateAdvancedMsaaState);
+	LOAD(g_mantleaxl, grCreateFmaskImageView);
+
+	LOAD(g_mantleaxl, grCmdCopyOcclusionData);
+
+	LOAD(g_mantleaxl, grCmdSetOcclusionPredication);
+	LOAD(g_mantleaxl, grCmdResetOcclusionPredication);
+	LOAD(g_mantleaxl, grCmdSetMemoryPredication);
+	LOAD(g_mantleaxl, grCmdResetMemoryPredication);
+	LOAD(g_mantleaxl, grCmdIf);
+	LOAD(g_mantleaxl, grCmdElse);
+	LOAD(g_mantleaxl, grCmdEndIf);
+	LOAD(g_mantleaxl, grCmdWhile);
+	LOAD(g_mantleaxl, grCmdEndWhile);
+
+	LOAD(g_mantleaxl, grQueueDelay);
+
+	LOAD(g_mantleaxl, grCalibrateGpuTimestamp);
+
 	return MAGMA_SUCCESS;
 }
 
@@ -317,6 +343,31 @@ MAGMA_STDCALL void magmaTerminate(void) {
 	FREE(grWsiWinCreatePresentableImage);
 	FREE(grWsiWinQueuePresent);
 	FREE(grWsiWinSetMaxQueuedFrames);
+
+	FREE(grGetExtensionLibraryVersion);
+
+	FREE(grCreateBorderColorPalette);
+	FREE(grUpdateBorderColorPalette);
+	FREE(grCmdBindBorderColorPalette);
+
+	FREE(grCreateAdvancedMsaaState);
+	FREE(grCreateFmaskImageView);
+
+	FREE(grCmdCopyOcclusionData);
+
+	FREE(grCmdSetOcclusionPredication);
+	FREE(grCmdResetOcclusionPredication);
+	FREE(grCmdSetMemoryPredication);
+	FREE(grCmdResetMemoryPredication);
+	FREE(grCmdIf);
+	FREE(grCmdElse);
+	FREE(grCmdEndIf);
+	FREE(grCmdWhile);
+	FREE(grCmdEndWhile);
+
+	FREE(grQueueDelay);
+
+	FREE(grCalibrateGpuTimestamp);
 
 	if(g_mantle) {
 		FreeLibrary(g_mantle);

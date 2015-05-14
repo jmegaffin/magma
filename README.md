@@ -10,6 +10,7 @@ Status
 |:-----------------:|:--------:|
 |`mantle.h`         |complete  |
 |`mantleDbg.h`      |complete  |
+|`mantleExt.h`      |complete  |
 |`mantleWsiWinExt.h`|complete  |
 
 Building

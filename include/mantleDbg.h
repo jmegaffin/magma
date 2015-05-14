@@ -33,51 +33,51 @@ MAGMA_CALLBACK(GR_VOID, GR_DBG_MSG_CALLBACK_FUNCTION)(
 
 
 // functions
-MAGMA_FUNCTION(grDbgSetValidationLevel)(
+MAGMA_FUNCTION(GR_RESULT, grDbgSetValidationLevel)(
 	GR_DEVICE device,
 	GR_ENUM   validationLevel
 );
 
-MAGMA_FUNCTION(grDbgRegisterMsgCallback)(
+MAGMA_FUNCTION(GR_RESULT, grDbgRegisterMsgCallback)(
 	GR_DBG_MSG_CALLBACK_FUNCTION pfnMsgCallback,
 	GR_VOID                     *pUserData
 );
 
-MAGMA_FUNCTION(grDbgUnregisterMsgCallback)(
+MAGMA_FUNCTION(GR_RESULT, grDbgUnregisterMsgCallback)(
 	GR_DBG_MSG_CALLBACK_FUNCTION pfnMsgCallback
 );
 
-MAGMA_FUNCTION(grDbgSetMessageFilter)(
+MAGMA_FUNCTION(GR_RESULT, grDbgSetMessageFilter)(
 	GR_DEVICE device,
 	GR_ENUM   msgCode,
 	GR_ENUM   filter
 );
 
-MAGMA_FUNCTION(grDbgSetObjectTag)(
+MAGMA_FUNCTION(GR_RESULT, grDbgSetObjectTag)(
 	GR_BASE_OBJECT object,
 	GR_SIZE        tagSize,
 	GR_VOID       *pTag
 );
 
-MAGMA_FUNCTION(grDbgSetGlobalOption)(
+MAGMA_FUNCTION(GR_RESULT, grDbgSetGlobalOption)(
 	GR_DBG_GLOBAL_OPTION dbgOption,
 	GR_SIZE              dataSize,
 	const GR_VOID       *pData 
 );
 
-MAGMA_FUNCTION(grDbgSetDeviceOption)(
+MAGMA_FUNCTION(GR_RESULT, grDbgSetDeviceOption)(
 	GR_DEVICE            device,
 	GR_DBG_DEVICE_OPTION dbgOption,
 	GR_SIZE              dataSize,
 	const GR_VOID       *pData
 );
 
-MAGMA_FUNCTION(grCmdDbgMarkerBegin)(
+MAGMA_FUNCTION(GR_RESULT, grCmdDbgMarkerBegin)(
 	GR_CMD_BUFFER  cmdBuffer,
 	const GR_CHAR *pMarker
 );
 
-MAGMA_FUNCTION(grCmdDbgMarkerEnd)(
+MAGMA_FUNCTION(GR_RESULT, grCmdDbgMarkerEnd)(
 	GR_CMD_BUFFER  cmdBuffer
 );
 

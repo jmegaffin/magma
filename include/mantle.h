@@ -13,7 +13,7 @@
 #define MAGMA_ENUM(name)           typedef enum _##name name
 #define MAGMA_STRUCT(name)         typedef struct _##name name
 #define MAGMA_CALLBACK(type, name) typedef type (GR_STDCALL *name)
-#define MAGMA_FUNCTION(name)       MAGMA_EXTERN GR_RESULT (GR_STDCALL *name)
+#define MAGMA_FUNCTION(type, name) MAGMA_EXTERN type (GR_STDCALL *name)
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,6 +36,7 @@ extern "C" {
 // type aliases
 typedef void     GR_VOID;
 typedef int32_t  GR_BOOL;
+typedef uint8_t  GR_BYTE;
 typedef char     GR_CHAR;
 typedef uint32_t GR_UINT;
 typedef uint8_t  GR_UINT8;
@@ -227,34 +228,34 @@ MAGMA_CALLBACK(GR_VOID, GR_FREE_FUNCTION)(
 
 
 // initialization and device functions
-MAGMA_FUNCTION(grInitAndEnumerateGpus)(
+MAGMA_FUNCTION(GR_RESULT, grInitAndEnumerateGpus)(
     const GR_APPLICATION_INFO *pAppInfo,
     const GR_ALLOC_CALLBACKS  *pAllocCb,
     GR_UINT                   *pGpuCount,
     GR_PHYSICAL_GPU            gpus[GR_MAX_PHYSICAL_GPUS]
 );
 
-MAGMA_FUNCTION(grGetGpuInfo)(
+MAGMA_FUNCTION(GR_RESULT, grGetGpuInfo)(
     GR_PHYSICAL_GPU gpu,
     GR_ENUM         infoType,
     GR_SIZE        *pDataSize,
     GR_VOID        *pData
 );
 
-MAGMA_FUNCTION(grCreateDevice)(
+MAGMA_FUNCTION(GR_RESULT, grCreateDevice)(
     GR_PHYSICAL_GPU              gpu,
     const GR_DEVICE_CREATE_INFO *pCreateInfo,
     GR_DEVICE                   *pDevice
 );
 
-MAGMA_FUNCTION(grDestroyDevice)(
+MAGMA_FUNCTION(GR_RESULT, grDestroyDevice)(
     GR_DEVICE device
 );
 
 
 
 // extension discovery functions
-MAGMA_FUNCTION(grGetExtensionSupport)(
+MAGMA_FUNCTION(GR_RESULT, grGetExtensionSupport)(
     GR_PHYSICAL_GPU gpu,
     const GR_CHAR  *pExtName
 );
@@ -262,22 +263,22 @@ MAGMA_FUNCTION(grGetExtensionSupport)(
 
 
 // queue functions
-MAGMA_FUNCTION(grGetDeviceQueue)(
+MAGMA_FUNCTION(GR_RESULT, grGetDeviceQueue)(
     GR_DEVICE device,
     GR_ENUM   queueType,
     GR_UINT   queueId,
     GR_QUEUE *pQueue
 );
 
-MAGMA_FUNCTION(grQueueWaitIdle)(
+MAGMA_FUNCTION(GR_RESULT, grQueueWaitIdle)(
     GR_QUEUE queue
 );
 
-MAGMA_FUNCTION(grDeviceWaitIdle)(
+MAGMA_FUNCTION(GR_RESULT, grDeviceWaitIdle)(
     GR_DEVICE device
 );
 
-MAGMA_FUNCTION(grQueueSubmit)(
+MAGMA_FUNCTION(GR_RESULT, grQueueSubmit)(
     GR_QUEUE             queue,
     GR_UINT              cmdBufferCount,
     const GR_CMD_BUFFER *pCmdBuffers,
@@ -286,7 +287,7 @@ MAGMA_FUNCTION(grQueueSubmit)(
     GR_FENCE             fence
 );
 
-MAGMA_FUNCTION(grQueueSetGlobalMemReferences)(
+MAGMA_FUNCTION(GR_RESULT, grQueueSetGlobalMemReferences)(
     GR_QUEUE             queue,
     GR_UINT              memRefCount,
     const GR_MEMORY_REF *pMemRefs
@@ -295,12 +296,12 @@ MAGMA_FUNCTION(grQueueSetGlobalMemReferences)(
 
 
 // memory management functions
-MAGMA_FUNCTION(grGetMemoryHeapCount)(
+MAGMA_FUNCTION(GR_RESULT, grGetMemoryHeapCount)(
     GR_DEVICE device,
     GR_UINT  *pCount
 );
 
-MAGMA_FUNCTION(grGetMemoryHeapInfo)(
+MAGMA_FUNCTION(GR_RESULT, grGetMemoryHeapInfo)(
     GR_DEVICE device,
     GR_UINT   heapId,
     GR_ENUM   infoType,
@@ -308,32 +309,32 @@ MAGMA_FUNCTION(grGetMemoryHeapInfo)(
     GR_VOID  *pData
 );
 
-MAGMA_FUNCTION(grAllocMemory)(
+MAGMA_FUNCTION(GR_RESULT, grAllocMemory)(
     GR_DEVICE                   device,
     const GR_MEMORY_ALLOC_INFO *pAllocInfo,
     GR_GPU_MEMORY              *pMem
 );
 
-MAGMA_FUNCTION(grFreeMemory)(
+MAGMA_FUNCTION(GR_RESULT, grFreeMemory)(
     GR_GPU_MEMORY mem
 );
 
-MAGMA_FUNCTION(grSetMemoryPriority)(
+MAGMA_FUNCTION(GR_RESULT, grSetMemoryPriority)(
     GR_GPU_MEMORY mem,
     GR_ENUM       priority
 );
 
-MAGMA_FUNCTION(grMapMemory)(
+MAGMA_FUNCTION(GR_RESULT, grMapMemory)(
     GR_GPU_MEMORY mem,
     GR_FLAGS      flags,
     GR_VOID     **ppData
 );
 
-MAGMA_FUNCTION(grUnmapMemory)(
+MAGMA_FUNCTION(GR_RESULT, grUnmapMemory)(
     GR_GPU_MEMORY mem
 );
 
-MAGMA_FUNCTION(grRemapVirtualMemoryPages)(
+MAGMA_FUNCTION(GR_RESULT, grRemapVirtualMemoryPages)(
     GR_DEVICE                            device,
     GR_UINT                              rangeCount,
     const GR_VIRTUAL_MEMORY_REMAP_RANGE *pRanges,
@@ -343,7 +344,7 @@ MAGMA_FUNCTION(grRemapVirtualMemoryPages)(
     const GR_QUEUE_SEMAPHORE            *pPostSignalSemaphores
 );
 
-MAGMA_FUNCTION(grPinSystemMemory)(
+MAGMA_FUNCTION(GR_RESULT, grPinSystemMemory)(
     GR_DEVICE      device,
     const GR_VOID *pSystem,
     GR_SIZE        memSize,
@@ -353,18 +354,18 @@ MAGMA_FUNCTION(grPinSystemMemory)(
 
 
 // generic API object management functions
-MAGMA_FUNCTION(grDestroyObject)(
+MAGMA_FUNCTION(GR_RESULT, grDestroyObject)(
     GR_OBJECT object
 );
 
-MAGMA_FUNCTION(grGetObjectInfo)(
+MAGMA_FUNCTION(GR_RESULT, grGetObjectInfo)(
     GR_BASE_OBJECT object,
     GR_ENUM        infoType,
     GR_SIZE       *pDataSize,
     GR_VOID       *pData
 );
 
-MAGMA_FUNCTION(grBindObjectMemory)(
+MAGMA_FUNCTION(GR_RESULT, grBindObjectMemory)(
     GR_OBJECT     object,
     GR_GPU_MEMORY mem,
     GR_GPU_SIZE   offset
@@ -373,7 +374,7 @@ MAGMA_FUNCTION(grBindObjectMemory)(
 
 
 // image and sampler functions
-MAGMA_FUNCTION(grGetFormatInfo)(
+MAGMA_FUNCTION(GR_RESULT, grGetFormatInfo)(
     GR_DEVICE device,
     GR_FORMAT format,
     GR_ENUM   infoType,
@@ -381,13 +382,13 @@ MAGMA_FUNCTION(grGetFormatInfo)(
     GR_VOID  *pData
 );
 
-MAGMA_FUNCTION(grCreateImage)(
+MAGMA_FUNCTION(GR_RESULT, grCreateImage)(
     GR_DEVICE                   device,
     const GR_IMAGE_CREATE_INFO *pCreateInfo,
     GR_IMAGE                   *pImage
 );
 
-MAGMA_FUNCTION(grGetImageSubresourceInfo)(
+MAGMA_FUNCTION(GR_RESULT, grGetImageSubresourceInfo)(
     GR_IMAGE                    image,
     const GR_IMAGE_SUBRESOURCE *pSubresource,
     GR_ENUM                     infoType,
@@ -395,7 +396,7 @@ MAGMA_FUNCTION(grGetImageSubresourceInfo)(
     GR_VOID                    *pData
 );
 
-MAGMA_FUNCTION(grCreateSampler)(
+MAGMA_FUNCTION(GR_RESULT, grCreateSampler)(
     GR_DEVICE                     device,
     const GR_SAMPLER_CREATE_INFO *pCreateInfo,
     GR_SAMPLER                   *pSampler
@@ -404,19 +405,19 @@ MAGMA_FUNCTION(grCreateSampler)(
 
 
 // image view functions
-MAGMA_FUNCTION(grCreateImageView)(
+MAGMA_FUNCTION(GR_RESULT, grCreateImageView)(
     GR_DEVICE                        device,
     const GR_IMAGE_VIEW_CREATE_INFO *pCreateInfo,
     GR_IMAGE_VIEW                   *pView
 );
 
-MAGMA_FUNCTION(grCreateColorTargetView)(
+MAGMA_FUNCTION(GR_RESULT, grCreateColorTargetView)(
     GR_DEVICE                               device,
     const GR_COLOR_TARGET_VIEW_CREATE_INFO *pCreateInfo,
     GR_COLOR_TARGET_VIEW                   *pView
 );
 
-MAGMA_FUNCTION(grCreateDepthStencilView)(
+MAGMA_FUNCTION(GR_RESULT, grCreateDepthStencilView)(
     GR_DEVICE                                device,
     const GR_DEPTH_STENCIL_VIEW_CREATE_INFO *pCreateInfo,
     GR_DEPTH_STENCIL_VIEW                   *pView
@@ -425,31 +426,31 @@ MAGMA_FUNCTION(grCreateDepthStencilView)(
 
 
 // shader and pipeline functions
-MAGMA_FUNCTION(grCreateShader)(
+MAGMA_FUNCTION(GR_RESULT, grCreateShader)(
     GR_DEVICE                    device,
     const GR_SHADER_CREATE_INFO *pCreateInfo,
     GR_SHADER                   *pShader
 );
 
-MAGMA_FUNCTION(grCreateGraphicsPipeline)(
+MAGMA_FUNCTION(GR_RESULT, grCreateGraphicsPipeline)(
     GR_DEVICE                               device,
     const GR_GRAPHICS_PIPELINE_CREATE_INFO *pCreateInfo,
     GR_PIPELINE                            *pPipeline
 );
 
-MAGMA_FUNCTION(grCreateComputePipeline)(
+MAGMA_FUNCTION(GR_RESULT, grCreateComputePipeline)(
     GR_DEVICE                              device,
     const GR_COMPUTE_PIPELINE_CREATE_INFO *pCreateInfo,
     GR_PIPELINE                           *pPipeline
 );
 
-MAGMA_FUNCTION(grStorePipeline)(
+MAGMA_FUNCTION(GR_RESULT, grStorePipeline)(
     GR_PIPELINE pipeline,
     GR_SIZE    *pDataSize,
     GR_VOID    *pData
 );
 
-MAGMA_FUNCTION(grLoadPipeline)(
+MAGMA_FUNCTION(GR_RESULT, grLoadPipeline)(
     GR_DEVICE      device,
     GR_SIZE        dataSize,
     const GR_VOID *data,
@@ -459,49 +460,49 @@ MAGMA_FUNCTION(grLoadPipeline)(
 
 
 // descriptor set functions
-MAGMA_FUNCTION(grCreateDescriptorSet)(
+MAGMA_FUNCTION(GR_RESULT, grCreateDescriptorSet)(
     GR_DEVICE                            device,
     const GR_DESCRIPTOR_SET_CREATE_INFO *pCreateInfo,
     GR_DESCRIPTOR_SET                   *pDescriptorSet
 );
 
-MAGMA_FUNCTION(grBeginDescriptorSetUpdate)(
+MAGMA_FUNCTION(GR_RESULT, grBeginDescriptorSetUpdate)(
     GR_DESCRIPTOR_SET descriptorSet
 );
 
-MAGMA_FUNCTION(grEndDescriptorSetUpdate)(
+MAGMA_FUNCTION(GR_RESULT, grEndDescriptorSetUpdate)(
     GR_DESCRIPTOR_SET descriptorSet
 );
 
-MAGMA_FUNCTION(grAttachSamplerDescriptors)(
+MAGMA_FUNCTION(GR_RESULT, grAttachSamplerDescriptors)(
     GR_DESCRIPTOR_SET descriptorSet,
     GR_UINT           startSlot,
     GR_UINT           slotCount,
     const GR_SAMPLER *pSamplers
 );
 
-MAGMA_FUNCTION(grAttachImageViewDescriptors)(
+MAGMA_FUNCTION(GR_RESULT, grAttachImageViewDescriptors)(
     GR_DESCRIPTOR_SET                descriptorSet,
     GR_UINT                          startSlot,
     GR_UINT                          slotCount,
     const GR_IMAGE_VIEW_ATTACH_INFO *pImageViews
 );
 
-MAGMA_FUNCTION(grAttachMemoryViewDescriptors)(
+MAGMA_FUNCTION(GR_RESULT, grAttachMemoryViewDescriptors)(
     GR_DESCRIPTOR_SET                 descriptorSet,
     GR_UINT                           startSlot,
     GR_UINT                           slotCount,
     const GR_MEMORY_VIEW_ATTACH_INFO *pMemViews
 );
 
-MAGMA_FUNCTION(grAttachNestedDescriptors)(
+MAGMA_FUNCTION(GR_RESULT, grAttachNestedDescriptors)(
     GR_DESCRIPTOR_SET                    descriptorSet,
     GR_UINT                              startSlot,
     GR_UINT                              slotCount,
     const GR_DESCRIPTOR_SET_ATTACH_INFO *pImageViews
 );
 
-MAGMA_FUNCTION(grClearDescriptorSetSlots)(
+MAGMA_FUNCTION(GR_RESULT, grClearDescriptorSetSlots)(
     GR_DESCRIPTOR_SET descriptorSet,
     GR_UINT           startSlot,
     GR_UINT           slotCount
@@ -510,31 +511,31 @@ MAGMA_FUNCTION(grClearDescriptorSetSlots)(
 
 
 // state object functions
-MAGMA_FUNCTION(grCreateViewportState)(
+MAGMA_FUNCTION(GR_RESULT, grCreateViewportState)(
     GR_DEVICE                            device,
     const GR_VIEWPORT_STATE_CREATE_INFO *pCreateInfo,
     GR_VIEWPORT_STATE_OBJECT            *pState
 );
 
-MAGMA_FUNCTION(grCreateRasterState)(
+MAGMA_FUNCTION(GR_RESULT, grCreateRasterState)(
     GR_DEVICE                          device,
     const GR_RASTER_STATE_CREATE_INFO *pCreateInfo,
     GR_RASTER_STATE_OBJECT            *pState
 );
 
-MAGMA_FUNCTION(grCreateColorBlendState)(
+MAGMA_FUNCTION(GR_RESULT, grCreateColorBlendState)(
     GR_DEVICE                               device,
     const GR_COLOR_BLEND_STATE_CREATE_INFO *pCreateInfo,
     GR_COLOR_BLEND_STATE_OBJECT            *pState
 );
 
-MAGMA_FUNCTION(grCreateDepthStencilState)(
+MAGMA_FUNCTION(GR_RESULT, grCreateDepthStencilState)(
     GR_DEVICE                                 device,
     const GR_DEPTH_STENCIL_STATE_CREATE_INFO *pCreateInfo,
     GR_DEPTH_STENCIL_STATE_OBJECT            *pState
 );
 
-MAGMA_FUNCTION(grCreateMsaaState)(
+MAGMA_FUNCTION(GR_RESULT, grCreateMsaaState)(
     GR_DEVICE                        device,
     const GR_MSAA_STATE_CREATE_INFO *pCreateInfo,
     GR_MSAA_STATE_OBJECT            *pState
@@ -543,13 +544,13 @@ MAGMA_FUNCTION(grCreateMsaaState)(
 
 
 // query and synchronization functions
-MAGMA_FUNCTION(grCreateQueryPool)(
+MAGMA_FUNCTION(GR_RESULT, grCreateQueryPool)(
     GR_DEVICE                        device,
     const GR_QUERY_POOL_CREATE_INFO *pCreateInfo,
     GR_QUERY_POOL                   *pQueryPool
 );
 
-MAGMA_FUNCTION(grGetQueryPoolResults)(
+MAGMA_FUNCTION(GR_RESULT, grGetQueryPoolResults)(
     GR_QUERY_POOL queryPool,
     GR_UINT       startQuery,
     GR_UINT       queryCount,
@@ -557,17 +558,17 @@ MAGMA_FUNCTION(grGetQueryPoolResults)(
     GR_VOID      *pData
 );
 
-MAGMA_FUNCTION(grCreateFence)(
+MAGMA_FUNCTION(GR_RESULT, grCreateFence)(
     GR_DEVICE                   device,
     const GR_FENCE_CREATE_INFO *pCreateInfo,
     GR_FENCE                   *pFence
 );
 
-MAGMA_FUNCTION(grGetFenceStatus)(
+MAGMA_FUNCTION(GR_RESULT, grGetFenceStatus)(
     GR_FENCE fence
 );
 
-MAGMA_FUNCTION(grWaitForFences)(
+MAGMA_FUNCTION(GR_RESULT, grWaitForFences)(
     GR_DEVICE       device,
     GR_UINT         fenceCount,
     const GR_FENCE *pFences,
@@ -575,68 +576,68 @@ MAGMA_FUNCTION(grWaitForFences)(
     GR_FLOAT        timeout
 );
 
-MAGMA_FUNCTION(grCreateQueueSemaphore)(
+MAGMA_FUNCTION(GR_RESULT, grCreateQueueSemaphore)(
     GR_DEVICE                             device,
     const GR_QUEUE_SEMAPHORE_CREATE_INFO *pCreateInfo,
     GR_QUEUE_SEMAPHORE                   *pSemaphore
 );
 
-MAGMA_FUNCTION(grSignalQueueSemaphore)(
+MAGMA_FUNCTION(GR_RESULT, grSignalQueueSemaphore)(
     GR_QUEUE           queue,
     GR_QUEUE_SEMAPHORE semaphore
 );
 
-MAGMA_FUNCTION(grWaitQueueSemaphore)(
+MAGMA_FUNCTION(GR_RESULT, grWaitQueueSemaphore)(
     GR_QUEUE           queue,
     GR_QUEUE_SEMAPHORE semaphore
 );
 
-MAGMA_FUNCTION(grCreateEvent)(
+MAGMA_FUNCTION(GR_RESULT, grCreateEvent)(
     GR_DEVICE                   device,
     const GR_EVENT_CREATE_INFO *pCreateInfo,
     GR_EVENT                   *pEvent
 );
 
-MAGMA_FUNCTION(grGetEventStatus)(
+MAGMA_FUNCTION(GR_RESULT, grGetEventStatus)(
     GR_EVENT event
 );
 
-MAGMA_FUNCTION(grSetEvent)(
+MAGMA_FUNCTION(GR_RESULT, grSetEvent)(
     GR_EVENT event
 );
 
-MAGMA_FUNCTION(grResetEvent)(
+MAGMA_FUNCTION(GR_RESULT, grResetEvent)(
     GR_EVENT event
 );
 
 
 
 // multi-device management functions
-MAGMA_FUNCTION(grGetMultiGpuCapability)(
+MAGMA_FUNCTION(GR_RESULT, grGetMultiGpuCapability)(
     GR_PHYSICAL_GPU            gpu0,
     GR_PHYSICAL_GPU            gpu1,
     GR_GPU_COMPATIBILITY_INFO *pInfo
 );
 
-MAGMA_FUNCTION(grOpenSharedMemory)(
+MAGMA_FUNCTION(GR_RESULT, grOpenSharedMemory)(
     GR_DEVICE                  device,
     const GR_MEMORY_OPEN_INFO *pOpenInfo,
     GR_GPU_MEMORY             *pMem
 );
 
-MAGMA_FUNCTION(grOpenSharedQueueSemaphore)(
+MAGMA_FUNCTION(GR_RESULT, grOpenSharedQueueSemaphore)(
     GR_DEVICE                           device,
     const GR_QUEUE_SEMAPHORE_OPEN_INFO *pOpenInfo,
     GR_QUEUE_SEMAPHORE                 *pSemaphore
 );
 
-MAGMA_FUNCTION(grOpenPeerMemory)(
+MAGMA_FUNCTION(GR_RESULT, grOpenPeerMemory)(
     GR_DEVICE                       device,
     const GR_PEER_MEMORY_OPEN_INFO *pOpenInfo,
     GR_GPU_MEMORY                  *pMem
 );
 
-MAGMA_FUNCTION(grOpenPeerImage)(
+MAGMA_FUNCTION(GR_RESULT, grOpenPeerImage)(
     GR_DEVICE                      device,
     const GR_PEER_IMAGE_OPEN_INFO *pOpenInfo,
     GR_GPU_MEMORY                 *pMem
@@ -645,41 +646,41 @@ MAGMA_FUNCTION(grOpenPeerImage)(
 
 
 // command buffer management functions
-MAGMA_FUNCTION(grCreateCommandBuffer)(
+MAGMA_FUNCTION(GR_RESULT, grCreateCommandBuffer)(
     GR_DEVICE                        device,
     const GR_CMD_BUFFER_CREATE_INFO *pCreateInfo,
     GR_CMD_BUFFER                   *pCmdBuffer
 );
 
-MAGMA_FUNCTION(grBeginCommandBuffer)(
+MAGMA_FUNCTION(GR_RESULT, grBeginCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer,
     GR_FLAGS      flags
 );
 
-MAGMA_FUNCTION(grEndCommandBuffer)(
+MAGMA_FUNCTION(GR_RESULT, grEndCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer
 );
 
-MAGMA_FUNCTION(grResetCommandBuffer)(
+MAGMA_FUNCTION(GR_RESULT, grResetCommandBuffer)(
     GR_CMD_BUFFER cmdBuffer
 );
 
 
 
 // command buffer building functions
-MAGMA_FUNCTION(grCmdBindPipeline)(
+MAGMA_FUNCTION(GR_RESULT, grCmdBindPipeline)(
     GR_CMD_BUFFER cmdBuffer,
     GR_ENUM       pipelineBindPoint,
     GR_PIPELINE   pipeline
 );
 
-MAGMA_FUNCTION(grCmdBindStateObject)(
+MAGMA_FUNCTION(GR_RESULT, grCmdBindStateObject)(
     GR_CMD_BUFFER   cmdBuffer,
     GR_ENUM         stateBindPoint,
     GR_STATE_OBJECT state
 );
 
-MAGMA_FUNCTION(grCmdBindDescriptorSet)(
+MAGMA_FUNCTION(GR_RESULT, grCmdBindDescriptorSet)(
     GR_CMD_BUFFER     cmdBuffer,
     GR_ENUM           pipelineBindPoint,
     GR_UINT           index,
@@ -687,39 +688,39 @@ MAGMA_FUNCTION(grCmdBindDescriptorSet)(
     GR_UINT           slotOffset
 );
 
-MAGMA_FUNCTION(grCmdBindDynamicMemoryView)(
+MAGMA_FUNCTION(GR_RESULT, grCmdBindDynamicMemoryView)(
     GR_CMD_BUFFER                     cmdBuffer,
     GR_ENUM                           pipelineBindPoint,
     const GR_MEMORY_VIEW_ATTACH_INFO *pMemView
 );
 
-MAGMA_FUNCTION(grCmdBindIndexData)(
+MAGMA_FUNCTION(GR_RESULT, grCmdBindIndexData)(
     GR_CMD_BUFFER cmdBuffer,
     GR_GPU_MEMORY mem,
     GR_GPU_SIZE   offset,
     GR_ENUM       indexType
 );
 
-MAGMA_FUNCTION(grCmdBindTargets)(
+MAGMA_FUNCTION(GR_RESULT, grCmdBindTargets)(
     GR_CMD_BUFFER                     cmdBuffer,
     GR_UINT                           colorTargetCount,
     const GR_COLOR_TARGET_BIND_INFO  *pColorTargets,
     const GR_DEPTH_STENCIL_BIND_INFO *pDepthTarget
 );
 
-MAGMA_FUNCTION(grCmdPrepareMemoryRegions)(
+MAGMA_FUNCTION(GR_RESULT, grCmdPrepareMemoryRegions)(
     GR_CMD_BUFFER                     cmdBuffer,
     GR_UINT                           transitionCount,
     const GR_MEMORY_STATE_TRANSITION *pStateTransitions
 );
 
-MAGMA_FUNCTION(grCmdPrepareImages)(
+MAGMA_FUNCTION(GR_RESULT, grCmdPrepareImages)(
     GR_CMD_BUFFER                    cmdBuffer,
     GR_UINT                          transitionCount,
     const GR_IMAGE_STATE_TRANSITION *pStateTransitions
 );
 
-MAGMA_FUNCTION(grCmdDraw)(
+MAGMA_FUNCTION(GR_RESULT, grCmdDraw)(
     GR_CMD_BUFFER cmdBuffer,
     GR_UINT       firstVertex,
     GR_UINT       vertexCount,
@@ -727,7 +728,7 @@ MAGMA_FUNCTION(grCmdDraw)(
     GR_UINT       instanceCount
 );
 
-MAGMA_FUNCTION(grCmdDrawIndexed)(
+MAGMA_FUNCTION(GR_RESULT, grCmdDrawIndexed)(
     GR_CMD_BUFFER cmdBuffer,
     GR_UINT       firstIndex,
     GR_UINT       indexCount,
@@ -736,32 +737,32 @@ MAGMA_FUNCTION(grCmdDrawIndexed)(
     GR_UINT       instanceCount
 );
 
-MAGMA_FUNCTION(grCmdDrawIndirect)(
+MAGMA_FUNCTION(GR_RESULT, grCmdDrawIndirect)(
     GR_CMD_BUFFER cmdBuffer,
     GR_GPU_MEMORY mem,
     GR_GPU_SIZE   offset
 );
 
-MAGMA_FUNCTION(grCmdDrawIndexedIndirect)(
+MAGMA_FUNCTION(GR_RESULT, grCmdDrawIndexedIndirect)(
     GR_CMD_BUFFER cmdBuffer,
     GR_GPU_MEMORY mem,
     GR_GPU_SIZE   offset
 );
 
-MAGMA_FUNCTION(grCmdDispatch)(
+MAGMA_FUNCTION(GR_RESULT, grCmdDispatch)(
     GR_CMD_BUFFER cmdBuffer,
     GR_UINT       x,
     GR_UINT       y,
     GR_UINT       z
 );
 
-MAGMA_FUNCTION(grCmdDispatchIndirect)(
+MAGMA_FUNCTION(GR_RESULT, grCmdDispatchIndirect)(
     GR_CMD_BUFFER cmdBuffer,
     GR_GPU_MEMORY mem,
     GR_GPU_SIZE   offset
 );
 
-MAGMA_FUNCTION(grCmdCopyMemory)(
+MAGMA_FUNCTION(GR_RESULT, grCmdCopyMemory)(
     GR_CMD_BUFFER         cmdBuffer,
     GR_GPU_MEMORY         srcMem,
     GR_GPU_MEMORY         destMem,
@@ -769,7 +770,7 @@ MAGMA_FUNCTION(grCmdCopyMemory)(
     const GR_MEMORY_COPY *pRegions
 );
 
-MAGMA_FUNCTION(grCmdCopyImage)(
+MAGMA_FUNCTION(GR_RESULT, grCmdCopyImage)(
     GR_CMD_BUFFER        cmdBuffer,
     GR_IMAGE             srcImage,
     GR_IMAGE             destImage,
@@ -777,7 +778,7 @@ MAGMA_FUNCTION(grCmdCopyImage)(
     const GR_IMAGE_COPY *pRegions
 );
 
-MAGMA_FUNCTION(grCmdCopyMemoryToImage)(
+MAGMA_FUNCTION(GR_RESULT, grCmdCopyMemoryToImage)(
     GR_CMD_BUFFER               cmdBuffer,
     GR_GPU_MEMORY               srcMem,
     GR_IMAGE                    destImage,
@@ -785,7 +786,7 @@ MAGMA_FUNCTION(grCmdCopyMemoryToImage)(
     const GR_MEMORY_IMAGE_COPY *pRegions
 );
 
-MAGMA_FUNCTION(grCmdCopyImageToMemory)(
+MAGMA_FUNCTION(GR_RESULT, grCmdCopyImageToMemory)(
     GR_CMD_BUFFER               cmdBuffer,
     GR_IMAGE                    srcImage,
     GR_GPU_MEMORY               destMem,
@@ -793,7 +794,7 @@ MAGMA_FUNCTION(grCmdCopyImageToMemory)(
     const GR_MEMORY_IMAGE_COPY *pRegions
 );
 
-MAGMA_FUNCTION(grCmdResolveImage)(
+MAGMA_FUNCTION(GR_RESULT, grCmdResolveImage)(
     GR_CMD_BUFFER           cmdBuffer,
     GR_IMAGE                srcImage,
     GR_IMAGE                destImage,
@@ -801,7 +802,7 @@ MAGMA_FUNCTION(grCmdResolveImage)(
     const GR_IMAGE_RESOLVE *pRegions
 );
 
-MAGMA_FUNCTION(grCmdCloneImageData)(
+MAGMA_FUNCTION(GR_RESULT, grCmdCloneImageData)(
     GR_CMD_BUFFER cmdBuffer,
     GR_IMAGE      srcImage,
     GR_ENUM       srcImageState,
@@ -809,7 +810,7 @@ MAGMA_FUNCTION(grCmdCloneImageData)(
     GR_ENUM       destImageState
 );
 
-MAGMA_FUNCTION(grCmdUpdateMemory)(
+MAGMA_FUNCTION(GR_RESULT, grCmdUpdateMemory)(
     GR_CMD_BUFFER    cmdBuffer,
     GR_GPU_MEMORY    destMem,
     GR_GPU_SIZE      destOffset,
@@ -817,7 +818,7 @@ MAGMA_FUNCTION(grCmdUpdateMemory)(
     const GR_UINT32 *pData
 );
 
-MAGMA_FUNCTION(grCmdFillMemory)(
+MAGMA_FUNCTION(GR_RESULT, grCmdFillMemory)(
     GR_CMD_BUFFER cmdBuffer,
     GR_GPU_MEMORY destMem,
     GR_GPU_SIZE   destOffset,
@@ -825,7 +826,7 @@ MAGMA_FUNCTION(grCmdFillMemory)(
     GR_UINT32     data
 );
 
-MAGMA_FUNCTION(grCmdClearColorImage)(
+MAGMA_FUNCTION(GR_RESULT, grCmdClearColorImage)(
     GR_CMD_BUFFER                     cmdBuffer,
     GR_IMAGE                          image,
     const GR_FLOAT                    color[4],
@@ -833,7 +834,7 @@ MAGMA_FUNCTION(grCmdClearColorImage)(
     const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
 );
 
-MAGMA_FUNCTION(grCmdClearColorImageRaw)(
+MAGMA_FUNCTION(GR_RESULT, grCmdClearColorImageRaw)(
     GR_CMD_BUFFER                     cmdBuffer,
     GR_IMAGE                          image,
     const GR_UINT32                   color[4],
@@ -841,7 +842,7 @@ MAGMA_FUNCTION(grCmdClearColorImageRaw)(
     const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
 );
 
-MAGMA_FUNCTION(grCmdClearDepthStencil)(
+MAGMA_FUNCTION(GR_RESULT, grCmdClearDepthStencil)(
     GR_CMD_BUFFER                     cmdBuffer,
     GR_IMAGE                          image,
     GR_FLOAT                          depth,
@@ -850,17 +851,17 @@ MAGMA_FUNCTION(grCmdClearDepthStencil)(
     const GR_IMAGE_SUBRESOURCE_RANGE *pRanges
 );
 
-MAGMA_FUNCTION(grCmdSetEvent)(
+MAGMA_FUNCTION(GR_RESULT, grCmdSetEvent)(
     GR_CMD_BUFFER cmdBuffer,
     GR_EVENT      event
 );
 
-MAGMA_FUNCTION(grCmdResetEvent)(
+MAGMA_FUNCTION(GR_RESULT, grCmdResetEvent)(
     GR_CMD_BUFFER cmdBuffer,
     GR_EVENT      event
 );
 
-MAGMA_FUNCTION(grCmdMemoryAtomic)(
+MAGMA_FUNCTION(GR_RESULT, grCmdMemoryAtomic)(
     GR_CMD_BUFFER cmdBuffer,
     GR_GPU_MEMORY destMem,
     GR_GPU_SIZE   destOffset,
@@ -868,34 +869,34 @@ MAGMA_FUNCTION(grCmdMemoryAtomic)(
     GR_ENUM       atomicOp
 );
 
-MAGMA_FUNCTION(grCmdBeginQuery)(
+MAGMA_FUNCTION(GR_RESULT, grCmdBeginQuery)(
     GR_CMD_BUFFER cmdBuffer,
     GR_QUERY_POOL queryPool,
     GR_UINT       slot,
     GR_FLAGS      flags
 );
 
-MAGMA_FUNCTION(grCmdEndQuery)(
+MAGMA_FUNCTION(GR_RESULT, grCmdEndQuery)(
     GR_CMD_BUFFER cmdBuffer,
     GR_QUERY_POOL queryPool,
     GR_UINT       slot
 );
 
-MAGMA_FUNCTION(grCmdResetQueryPool)(
+MAGMA_FUNCTION(GR_RESULT, grCmdResetQueryPool)(
     GR_CMD_BUFFER cmdBuffer,
     GR_QUERY_POOL queryPool,
     GR_UINT       startQuery,
     GR_UINT       queryCount
 );
 
-MAGMA_FUNCTION(grCmdWriteTimestamp)(
+MAGMA_FUNCTION(GR_RESULT, grCmdWriteTimestamp)(
     GR_CMD_BUFFER cmdBuffer,
     GR_ENUM       timestampType,
     GR_GPU_MEMORY destMem,
     GR_GPU_SIZE   destOffset
 );
 
-MAGMA_FUNCTION(grCmdInitAtomicCounters)(
+MAGMA_FUNCTION(GR_RESULT, grCmdInitAtomicCounters)(
     GR_CMD_BUFFER    cmdBuffer,
     GR_ENUM          pipelineBindPoint,
     GR_UINT          startCounter,
@@ -903,7 +904,7 @@ MAGMA_FUNCTION(grCmdInitAtomicCounters)(
     const GR_UINT32 *pData
 );
 
-MAGMA_FUNCTION(grCmdLoadAtomicCounters)(
+MAGMA_FUNCTION(GR_RESULT, grCmdLoadAtomicCounters)(
     GR_CMD_BUFFER cmdBuffer,
     GR_ENUM       pipelineBindPoint,
     GR_UINT       startCounter,
@@ -912,7 +913,7 @@ MAGMA_FUNCTION(grCmdLoadAtomicCounters)(
     GR_GPU_SIZE   srcOffset
 );
 
-MAGMA_FUNCTION(grCmdSaveAtomicCounters)(
+MAGMA_FUNCTION(GR_RESULT, grCmdSaveAtomicCounters)(
     GR_CMD_BUFFER cmdBuffer,
     GR_ENUM       pipelineBindPoint,
     GR_UINT       startCounter,

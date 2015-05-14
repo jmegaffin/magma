@@ -46,54 +46,54 @@ MAGMA_STRUCT(GR_WSI_WIN_QUEUE_PROPERTIES);
 
 
 // functions
-MAGMA_FUNCTION(grWsiWinGetDisplays)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinGetDisplays)(
 	GR_DEVICE           device,
 	GR_UINT            *pDisplayCount,
 	GR_WSI_WIN_DISPLAY *pDisplayList
 );
 
-MAGMA_FUNCTION(grWsiWinGetDisplayModeList)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinGetDisplayModeList)(
 	GR_WSI_WIN_DISPLAY       display,
 	GR_UINT                 *pDisplayModeCount,
 	GR_WSI_WIN_DISPLAY_MODE *pDisplayModeList
 );
 
-MAGMA_FUNCTION(grWsiWinTakeFullscreenOwnership)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinTakeFullscreenOwnership)(
 	GR_WSI_WIN_DISPLAY display,
 	GR_IMAGE image
 );
 
-MAGMA_FUNCTION(grWsiWinReleaseFullscreenOwnership)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinReleaseFullscreenOwnership)(
 	GR_WSI_WIN_DISPLAY display
 );
 
-MAGMA_FUNCTION(grWsiWinSetGammaRamp)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinSetGammaRamp)(
 	GR_WSI_WIN_DISPLAY           display,
 	const GR_WSI_WIN_GAMMA_RAMP *pGammaRamp
 );
 
-MAGMA_FUNCTION(grWsiWinWaitForVerticalBlank)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinWaitForVerticalBlank)(
 	GR_WSI_WIN_DISPLAY display
 );
 
-MAGMA_FUNCTION(grWsiWinGetScanLine)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinGetScanLine)(
 	GR_WSI_WIN_DISPLAY display,
 	GR_INT            *pScanLine
 );
 
-MAGMA_FUNCTION(grWsiWinCreatePresentableImage)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinCreatePresentableImage)(
 	GR_DEVICE                                       device,
 	const GR_WSI_WIN_PRESENTABLE_IMAGE_CREATE_INFO *pCreateInfo,
 	GR_IMAGE                                       *pImage,
 	GR_GPU_MEMORY                                  *pMem
 );
 
-MAGMA_FUNCTION(grWsiWinQueuePresent)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinQueuePresent)(
 	GR_QUEUE                       queue,
 	const GR_WSI_WIN_PRESENT_INFO *pPresentInfo
 );
 
-MAGMA_FUNCTION(grWsiWinSetMaxQueuedFrames)(
+MAGMA_FUNCTION(GR_RESULT, grWsiWinSetMaxQueuedFrames)(
 	GR_DEVICE device,
 	GR_UINT   maxFrames
 );
@@ -178,7 +178,7 @@ struct _GR_WSI_WIN_DISPLAY_MODE {
 };
 
 struct _GR_WSI_WIN_DISPLAY_PROPERTIES {
-	void *hMonitor;
+	void   *hMonitor;
 	GR_CHAR displayName[GR_MAX_DEVICE_NAME_LEN];
 	GR_RECT desktopCoordinates;
 	GR_ENUM rotation;
