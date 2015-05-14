@@ -8,7 +8,7 @@ Status
 
 |Header             |Status    |
 |:-----------------:|:--------:|
-|`mantle.h`         |incomplete|
+|`mantle.h`         |complete  |
 |`mantleDbg.h`      |complete  |
 |`mantleWsiWinExt.h`|complete  |
 
