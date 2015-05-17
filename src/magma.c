@@ -1,6 +1,6 @@
+#define MAGMA_EXTERN
 #include <magma.h>
 
-#define MAGMA_EXTERN
 #include <mantle.h>
 #include <mantleDbg.h>
 #include <mantleExt.h>

@@ -1,12 +1,18 @@
 #ifndef _MAGMA_H
 #define _MAGMA_H
 
+#include "magmaPre.h"
+
 #define MAGMA_STDCALL
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 
 // forward declarations
-typedef enum _MAGMA_RESULT MAGMA_RESULT;
+MAGMA_ENUM(MAGMA_RESULT);
 
 
 
@@ -24,5 +30,9 @@ enum _MAGMA_RESULT {
 };
 
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
