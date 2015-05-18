@@ -1591,7 +1591,7 @@ struct _GR_FORMAT_PROPERTIES {
     GR_FLAGS optimalTilingFeatures;
 };
 
-struct GR_GPU_COMPATIBILITY_INFO {
+struct _GR_GPU_COMPATIBILITY_INFO {
     GR_FLAGS compatibilityFlags;
 };
 
