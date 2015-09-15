@@ -1595,18 +1595,6 @@ struct _GR_GPU_COMPATIBILITY_INFO {
     GR_FLAGS compatibilityFlags;
 };
 
-struct _GR_IMAGE_CREATE_INFO {
-    GR_ENUM     imageType;
-    GR_FORMAT   format;
-    GR_EXTENT3D extent;
-    GR_UINT     mipLevels;
-    GR_UINT     arraySize;
-    GR_UINT     samples;
-    GR_ENUM     tiling;
-    GR_FLAGS    usage;
-    GR_FLAGS    flags;
-};
-
 struct _GR_IMAGE_SUBRESOURCE {
     GR_ENUM aspect;
     GR_UINT mipLevel;
@@ -1862,7 +1850,7 @@ struct _GR_COLOR_BLEND_STATE_CREATE_INFO {
     GR_FLOAT                    blendConst[4];
 };
 
-struct _GR_COLOR_TARGET_CREATE_INFO {
+struct _GR_COLOR_TARGET_VIEW_CREATE_INFO {
     GR_IMAGE  image;
     GR_FORMAT format;
     GR_UINT   mipLevel;
@@ -1890,6 +1878,18 @@ struct _GR_IMAGE_COPY {
     GR_IMAGE_SUBRESOURCE destSubresource;
     GR_OFFSET3D          destOffset;
     GR_EXTENT3D          extent;
+};
+
+struct _GR_IMAGE_CREATE_INFO {
+    GR_ENUM     imageType;
+    GR_FORMAT   format;
+    GR_EXTENT3D extent;
+    GR_UINT     mipLevels;
+    GR_UINT     arraySize;
+    GR_UINT     samples;
+    GR_ENUM     tiling;
+    GR_FLAGS    usage;
+    GR_FLAGS    flags;
 };
 
 struct _GR_IMAGE_RESOLVE {
